@@ -2,9 +2,11 @@
 #'
 #' `extract_date_time` does something.
 #'
-#' @param indir A string containing the directory where the raw data is from
-#' @param outdir A string containing the directory where the processed data should be stored (optional, necessary if save = TRUE)
+#' @param in_dir A string containing the directory where the raw data is from
+#' @param csv_sep A string containg the seperator of the csv file, default value is ",", but can be changed to e.g. ";" , "."
+#' @param out_dir A string containing the directory where the processed data should be stored (optional, necessary if save = TRUE)
 #' @param save A logical value which defines whether the generated datasets should be stored or not
+
 #' @return Returns the processed dataset containing logger data
 #'
 #' @import lubridate
@@ -15,38 +17,32 @@
 #'
 #'
 #' @examples
-#' extract_date_time("~/Documents/R-FinalExam/Muragl/", "/home/ela/Documents/R-FinalExam/reordered_data/", save = TRUE)
-#' extract_date_time("~/Documents/R-FinalExam/Muragl/", "/home/ela/Documents/R-FinalExam/reordered_data/", save = FALSE)
+#' extract_date_time("~/Documents/R-FinalExam/Muragl/", "~/Documents/R-FinalExam/packagetest/reorder/", save = TRUE, csv_sep = ",")
+#' extract_date_time("~/Documents/R-FinalExam/Muragl/", csv_sep = ",")
 #'
 #'
 #' @export
 
-extract_date_time <- function(indir, outdir, save){
 
-  if (!is.character(indir)){
-    stop("indir should be a string containing your input directory path")
-  }
 
-  if (!is.character(outdir)){
-    stop("outdir should be a string containing your input directory path")
-  }
 
-  # Error handling for invalid paths
-  if (!dir.exists(indir)) {
-    stop("The input directory does not exist.")
-  }
-  if (!dir.exists(outdir)) {
-    stop("The output directory does not exist.")
+
+
+extract_date_time <- function(in_dir, csv_sep = ",", out_dir = NULL, save = FALSE){
+  source("~/Documents/R-Projects/loggeranalysis/R/helperFunctions.R")
+  check_path(in_dir)
+  if (is.character(out_dir)){
+    check_path(out_dir)
   }
 
   if(!is.logical(save)){
     stop("save needs to be either TRUE or FALSE")
   }
 
-  files <- list.files(indir)
+  files <- list.files(in_dir)
 
   for (i in files){
-    logger_ds <- read.csv(paste0(indir,i) , sep = ',', comment.char = '#') %>%
+    logger_ds <- read.csv(paste0(in_dir,i) , sep = csv_sep, comment.char = '#') %>%
 
       mutate(date_time = str_split_fixed(.$Time, " ", 2)) %>%
 
@@ -63,10 +59,10 @@ extract_date_time <- function(indir, outdir, save){
 
     # Saving the Files if wanted ->
     if (save == TRUE){
-      if (file.exists(paste0(outdir,i))){
+      if (file.exists(paste0(out_dir,i))){
         print(paste("File exists:", i))}
-      else{write.csv(logger_ds, file = paste0(outdir,i), row.names = FALSE , sep = ",") }}
+      else{write.csv(logger_ds, file = paste0(out_dir,i), row.names = FALSE , sep = ",") }}
   }
 
-  return(logger_ds = logger_ds)
+  #return(logger_ds = logger_ds)
 }
