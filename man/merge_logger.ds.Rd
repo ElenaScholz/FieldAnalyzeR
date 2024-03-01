@@ -21,7 +21,7 @@ Returns one csv dataset containing all loggerdata
 }
 \examples{
 
-merge_logger.ds(indir = '/home/ela/Documents/R-FinalExam/packagetest/append_df', outdir = '/home/ela/Documents/R-FinalExam/packagetest/append_df/', save = TRUE)
-merge_logger.ds(indir = '/home/ela/Documents/R-FinalExam/packagetest/append_df', outdir = '/home/ela/Documents/R-FinalExam/packagetest/append_df/', save = FALSE)
+merge_logger.ds(indir = '~/Documents/R-FinalExam/packagetest/append_df/', outdir = '~/Documents/R-FinalExam/packagetest/append_df/', save = TRUE)
+merge_logger.ds(indir = '~/Documents/R-FinalExam/packagetest/append_df/', outdir = '~/Documents/R-FinalExam/packagetest/append_df/', save = FALSE)
 
 }

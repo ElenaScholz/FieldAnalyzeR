@@ -15,8 +15,8 @@
 #'
 #'
 #' @examples
-#' extract_date_time("/home/ela/Documents/R-FinalExam/Muragl", "/home/ela/Documents/R-FinalExam/reordered_data/", save = TRUE)
-#' extract_date_time("/home/ela/Documents/R-FinalExam/Muragl", "/home/ela/Documents/R-FinalExam/reordered_data/", save = FALSE)
+#' extract_date_time("~/Documents/R-FinalExam/Muragl/", "/home/ela/Documents/R-FinalExam/reordered_data/", save = TRUE)
+#' extract_date_time("~/Documents/R-FinalExam/Muragl/", "/home/ela/Documents/R-FinalExam/reordered_data/", save = FALSE)
 #'
 #'
 #' @export
@@ -46,7 +46,7 @@ extract_date_time <- function(indir, outdir, save){
   files <- list.files(indir)
 
   for (i in files){
-    logger_ds <- read.csv(paste0(indir,"/",i) , sep = ',', comment.char = '#') %>%
+    logger_ds <- read.csv(paste0(indir,i) , sep = ',', comment.char = '#') %>%
 
       mutate(date_time = str_split_fixed(.$Time, " ", 2)) %>%
 
@@ -65,7 +65,7 @@ extract_date_time <- function(indir, outdir, save){
     if (save == TRUE){
       if (file.exists(paste0(outdir,i))){
         print(paste("File exists:", i))}
-      else{write.csv(logger_ds, file = paste0(outdir,i), row.names = FALSE)}}
+      else{write.csv(logger_ds, file = paste0(outdir,i), row.names = FALSE , sep = ",") }}
   }
 
   return(logger_ds = logger_ds)

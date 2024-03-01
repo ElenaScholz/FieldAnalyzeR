@@ -13,8 +13,8 @@
 #'
 #' @examples
 #'
-#' merge_logger.ds(indir = '/home/ela/Documents/R-FinalExam/packagetest/append_df', outdir = '/home/ela/Documents/R-FinalExam/packagetest/append_df/', save = TRUE)
-#' merge_logger.ds(indir = '/home/ela/Documents/R-FinalExam/packagetest/append_df', outdir = '/home/ela/Documents/R-FinalExam/packagetest/append_df/', save = FALSE)
+#' merge_logger.ds(indir = '~/Documents/R-FinalExam/packagetest/append_df/', outdir = '~/Documents/R-FinalExam/packagetest/append_df/', save = TRUE)
+#' merge_logger.ds(indir = '~/Documents/R-FinalExam/packagetest/append_df/', outdir = '~/Documents/R-FinalExam/packagetest/append_df/', save = FALSE)
 #'
 #' @export
 
@@ -36,7 +36,7 @@ merge_logger.ds <- function(indir, outdir, save = TRUE){
 
   print(files)
   for (i in files){
-    logger_ds <- read.csv(paste0(indir,"/",i) , sep = ',', comment.char = '#')
+    logger_ds <- read.csv(paste0(indir,i) , sep = ',', comment.char = '#')
 
     all_logger.ds <- c(all_logger.ds, list(logger_ds))
   }
@@ -46,6 +46,6 @@ merge_logger.ds <- function(indir, outdir, save = TRUE){
   if (save == TRUE){
     if (file.exists(paste0(outdir, 'combined_loggerByID'))){
       print(paste("File exists:", 'combined_loggerByID'))}
-    else{write.csv(combined_logger.ds, file = paste0(outdir,'combined_loggerByID'), row.names = FALSE)}}
+    else{write.csv(combined_logger.ds, file = paste0(outdir,'combined_loggerByID.csv'), row.names = FALSE, sep = ",")}}
 }
 

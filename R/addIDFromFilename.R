@@ -13,8 +13,8 @@
 #' @import utils
 #' @examples
 #'
-#' add.id("/home/ela/Documents/R-FinalExam/packagetest/reorder", "/home/ela/Documents/R-FinalExam/packagetest/append_df/", save = TRUE, index.id = c(0,6))
-#' add.id("/home/ela/Documents/R-FinalExam/packagetest/reorder", "/home/ela/Documents/R-FinalExam/packagetest/append_df/", save = FALSE, index.id = c(0,6))
+#' add.id("~/Documents/R-FinalExam/packagetest/reorder/", "/home/ela/Documents/R-FinalExam/packagetest/append_df/", save = TRUE, index.id = c(0,6))
+#' add.id("~/Documents/R-FinalExam/packagetest/reorder/", "/home/ela/Documents/R-FinalExam/packagetest/append_df/", save = FALSE, index.id = c(0,6))
 #' @export
 
 add.id <- function(indir, outdir, save = TRUE, index.id = c(0,6)){
@@ -42,7 +42,7 @@ add.id <- function(indir, outdir, save = TRUE, index.id = c(0,6)){
     id.logger <- substr(i, index.id[1] , index.id[2])
 
 
-    logger_ds <- read.csv(paste0(indir,"/",i) , sep = ',', comment.char = '#') %>%
+    logger_ds <- read.csv(paste0(indir,i) , sep = ',', comment.char = '#') %>%
 
       mutate(Logger.ID=id.logger) %>%
 
@@ -53,7 +53,7 @@ add.id <- function(indir, outdir, save = TRUE, index.id = c(0,6)){
     if (save == TRUE){
       if (file.exists(paste0(outdir,  "id_",i))){
         print(paste("File exists:", i))}
-      else{write.csv(logger_ds, file = paste0(outdir,  "id_",i), row.names = FALSE)}}
+      else{write.csv(logger_ds, file = paste0(outdir,  "id_",i), row.names = FALSE, sep = ",")}}
 
 
   }

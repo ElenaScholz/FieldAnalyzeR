@@ -2,7 +2,7 @@
 % Please edit documentation in R/date_time.R
 \name{extract_date_time}
 \alias{extract_date_time}
-\title{My function}
+\title{extract_date_time}
 \usage{
 extract_date_time(indir, outdir, save)
 }
