@@ -17,13 +17,12 @@ check_file <- function(file){
   }
 }
 
-
 check_format <- function(input, csv_sep = ","){
 
   extension <- tools::file_ext(input)
 
   if (extension == "csv"){
-    dataframe <- utils::read.csv(input, sep = csv_sep)
+    dataframe <- utils::read.csv(input, sep = csv_sep, header = TRUE)
   }
   else if (extension == "xlsx"){
     dataframe <- readxl::read_excel(input)
@@ -35,7 +34,6 @@ check_format <- function(input, csv_sep = ","){
   return(dataframe)
 
 }
-
 
 check_save <- function(save, out_dir){
   if (save){

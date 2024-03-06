@@ -44,7 +44,7 @@ extract_date_time <- function(in_dir, csv_sep = ",", out_dir = NULL, save = FALS
   for (i in files){
     logger_ds <- read.csv(paste0(in_dir,i) , sep = csv_sep, comment.char = '#') %>%
 
-      mutate(date_time = str_split_fixed(.$Time, " ", 2)) %>%
+      mutate(date_time = str_split_fixed(Time, " ", 2)) %>%
 
       mutate(Date=as.Date(date_time[,1], format = "%d.%m.%Y"),
              Time = format(as.POSIXct(date_time[, 2], format = "%H:%M:%S"), format = "%H:%M:%S")) %>%
