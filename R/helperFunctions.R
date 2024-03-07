@@ -48,3 +48,15 @@ check_save <- function(save, out_dir){
     }
 }}
 
+# function for meteorological seasons
+month_to_season <- function(month_num) {
+  if (month_num %in% c(3, 4, 5)) {
+    return("Spring")
+  } else if (month_num %in% c(6, 7, 8)) {
+    return("Summer")
+  } else if (month_num %in% c(9, 10, 11)) {
+    return("Autumn")
+  } else {
+    return("Winter")
+  }
+}
