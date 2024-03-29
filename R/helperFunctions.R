@@ -60,3 +60,5 @@ month_to_season <- function(month_num) {
     return("Winter")
   }
 }
+
+# data aggregation function

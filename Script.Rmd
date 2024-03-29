@@ -1,0 +1,246 @@
+---
+title: "LoggerAnalysis"
+author: "Elena Scholz"
+date: "2024-03-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Used libraries
+```{r Import Libraries}
+library(readxl)
+library(lubridate)
+library(dplyr)
+library(stringr)
+library(utils)
+```
+IMPORTANT: Firstly check, if all datasets have the same column names
+-> new helper function that sees if in one directory is more than one dataset, if yes checking column names 
+
+```{r}
+read_logger_ds <- function(in_dir, csv_sep = ","){
+  source("~/Documents/R-Projects/loggeranalysis/R/helperFunctions.R")
+  check_path(in_dir)
+  all_ds <- list()
+  files <- list.files(in_dir, full.names = TRUE)
+  
+  for (i in files){
+    dataset <- read.csv(file, sep = ",", comment.char = "#", stringsAsFactors = FALSE)
+    
+    all_ds[i] <- dataset
+  }
+  
+  return(all_ds)
+   
+  # datasets <- lapply(files, function(file) {
+  #   dataset <- read.csv(file, sep = ",", comment.char = "#", stringsAsFactors = FALSE)
+  #   return(dataset)
+  # })
+  
+}
+  
+
+ds <- read_logger_ds("/home/ela/Documents/R-FinalExam/Muragl/")
+
+
+```
+
+
+still only working for my datasets
+```{r rearrange date and time columns}
+
+a <- ds[[1]]
+
+library(dplyr)
+library(stringr)
+
+extract_date_time <- function(data_frame, column_names = list(number = 'No', date = "Date", year = "Year", month = "Month", time = "Time", temperature = "Temp_Celsius")) {
+  
+  logger_dataset <- data_frame %>%
+    mutate(date_time = str_split_fixed(Time, " ", 2)) %>%
+    mutate(Date = as.Date(date_time[, 1], format = "%d.%m.%Y"),
+           Time = format(as.POSIXct(date_time[, 2], format = "%H:%M:%S"), format = "%H:%M:%S")) %>%
+    select(-date_time) %>%
+    mutate(Year = year(Date),
+           Month = month(Date),
+           Day = day(Date)) %>%
+  
+  select(No, Date, Year, Month, Day, Time, X1.oC)  
+  #   select(column_names$number, 
+  #          column_names$date, 
+  #          column_names$year, 
+  #          column_names$month, 
+  #          column_names$day, 
+  #          column_names$time,
+  #          column_names$temperature)
+  # 
+  colnames(logger_dataset) <- c("No", "Date", "Year", "Month", "Day", "Time", "Temperature_oC")
+  
+  
+  return(logger_dataset)
+}
+
+# Example usage
+# Assuming ds is your dataset
+result <- extract_date_time(a, column_names = list(number = 'No', date = "Date", year = "Year", month = "Month", time = "Time", temperature = "X1.oC"))
+
+
+
+
+```
+
+```{r}
+extract_date_time <- function(data_frame, column_names = list(number = 'No', date = "Date", year = "Year", month = "Month", time = "Time", temperature = "X1.oC")) {
+  # Select columns based on provided column names list
+  selected_data <- data_frame[, unlist(column_names)]
+  
+  # Perform date and time conversions
+  selected_data <- selected_data %>%
+    mutate(date_time = str_split_fixed(Time, " ", 2)) %>%
+    mutate(Date = as.Date(date_time[, 1], format = "%d.%m.%Y"),
+           Time = format(as.POSIXct(date_time[, 2], format = "%H:%M:%S"), format = "%H:%M:%S")) %>%
+    select(-date_time) %>%
+    mutate(Year = year(Date),
+           Month = month(Date),
+           Day = day(Date)) %>%
+
+  # Rename columns
+
+  # names(selected_data) <- new_colnames
+  
+  print(names(selected_data))
+  return(selected_data)
+}
+
+# Example usage
+data <- extract_date_time(ds[1], column_names = list(number = 'No', date = "Date", year = "Year", month = "Month", time = "Time", temperature = "X1.oC"))
+
+```
+
+```{r}
+
+add_id <- function(in_dir, csv_sep = ",", out_dir = NULL, save = FALSE, index_id = c(0,6)){
+
+  source("~/Documents/R-Projects/loggeranalysis/R/helperFunctions.R")
+
+  check_path(in_dir)
+  if (is.character(out_dir)){
+    check_path(out_dir)
+  }
+
+  if(!is.logical(save)){
+    stop("save needs to be either TRUE or FALSE")
+  }
+
+  if(!is.numeric(index_id) || length(index_id) != 2){
+    stop("index_id needs to be a numeric vector of length 2. Each integer defines the start and end position of the Logger-ID in the filename")
+  }
+
+  files <- list.files(in_dir)
+  all_logger_ds <- list()
+  for (i in files){
+
+    id.logger <- substr(i, index_id[1] , index_id[2])
+
+
+    logger_ds <- read.csv(paste0(in_dir,i) , sep = csv_sep, comment.char = '#') %>%
+
+      mutate(Logger.ID=id.logger) %>%
+
+      select(No, Logger.ID, Date, Year, Month, Day, Time, X1.oC, HK.Bat.V)
+
+
+    # Saving the Files if wanted
+    if (save == TRUE){
+      if (file.exists(paste0(out_dir,  "id_",i))){
+        print(paste("File exists:", i))}
+      else{write.csv(logger_ds, file = paste0(out_dir,  "id_",i), row.names = FALSE, sep = ",")}}
+
+    all_logger_ds[[i]] <- logger_ds
+  }
+
+  return(all_logger_ds=all_logger_ds)
+
+}
+
+
+
+```
+
+
+This part checks if all used datasets in an input directory have the same column names and stores them in a list
+```{r}
+indir <- "/home/ela/Documents/R-FinalExam/Muragl/"
+files <- list.files(indir)
+
+logger_data <- lapply(files, function(file) {
+  dataset <- read.csv(file.path(indir, file), sep = ",", comment.char = "#")
+  
+  return(list(filename = file, data = dataset))
+})
+
+column_names_list <- lapply(logger_data, colnames)
+
+inconsistent_files <- vector("list", length(files))
+for (i in seq_along(logger_data)) {
+  if (!identical(colnames(logger_data[[i]]$data), colnames(logger_data[[1]]$data))) {
+    inconsistent_files[[i]] <- files[i]
+  }
+}
+inconsistent_files <- unlist(inconsistent_files)
+
+# mit user input verbessern, so dass nutzer nicht selber spalten namen ändern muss
+if (length(inconsistent_files) > 0) {
+  message <- paste("Column names are not consistent across datasets. The inconsistent files are:", paste(inconsistent_files, collapse = ", "))
+  stop(message)
+} else {
+  print("The column names are all consistent. Here are the used column names:")
+  print(colnames(logger_data[[1]]$data))
+}
+
+
+```
+
+add id to dataframes, if id already in datasets - this step can be ignored
+```{r}
+logger_data <- lapply(logger_data, function(file) {
+  filename <- file$filename
+  id <- substr(filename, 1, 6)
+  
+  # Access the dataframe and add Logger.ID column
+  file <- file %>%
+    mutate(Logger.ID = id) %>%
+    select(No, Logger.ID, Time, X1.oC, HK.Bat.V)
+  
+  return(file)  # Return the modified dataframe
+})
+
+```
+
+
+rearrange the date and time column
+```{r}
+# Create an empty list to store modified data frames
+modified_dataframes <- list()
+
+# Iterate through each dataframe in logger_data
+for (ds in logger_data) {
+  modified_df <- ds %>%
+    dplyr::mutate(date_time = stringr::str_split_fixed(Time, " ", 2)) %>% 
+    dplyr::mutate(Date=as.Date(date_time[,1], format = "%d.%m.%Y"),
+                  Time = format(as.POSIXct(date_time[, 2], format = "%H:%M:%S"), format = "%H:%M:%S")) %>%
+    dplyr::select(-date_time) %>%
+    dplyr::mutate(Year=lubridate::year(Date),
+                  Month=lubridate::month(Date),
+                  Day=lubridate::day(Date)) %>%
+    dplyr::select(No, Date, Year, Month, Day, Time, X1.oC, HK.Bat.V)
+  
+    modified_dataframes[[length(modified_dataframes) + 1]] <- modified_df
+
+}
+
+```
+

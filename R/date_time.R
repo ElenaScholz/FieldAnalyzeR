@@ -40,7 +40,7 @@ extract_date_time <- function(in_dir, csv_sep = ",", out_dir = NULL, save = FALS
   }
 
   files <- list.files(in_dir)
-
+  all_logger_ds <- list()
   for (i in files){
     logger_ds <- read.csv(paste0(in_dir,i) , sep = csv_sep, comment.char = '#') %>%
 
@@ -62,7 +62,9 @@ extract_date_time <- function(in_dir, csv_sep = ",", out_dir = NULL, save = FALS
       if (file.exists(paste0(out_dir,i))){
         print(paste("File exists:", i))}
       else{write.csv(logger_ds, file = paste0(out_dir,i), row.names = FALSE , sep = ",") }}
+
+    all_logger_ds[[i]] <- logger_ds
   }
 
-  #return(logger_ds = logger_ds)
+  return(all_logger_ds = all_logger_ds)
 }

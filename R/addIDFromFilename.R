@@ -40,7 +40,7 @@ add_id <- function(in_dir, csv_sep = ",", out_dir = NULL, save = FALSE, index_id
   }
 
   files <- list.files(in_dir)
-
+  all_logger_ds <- list()
   for (i in files){
 
     id.logger <- substr(i, index_id[1] , index_id[2])
@@ -59,11 +59,10 @@ add_id <- function(in_dir, csv_sep = ",", out_dir = NULL, save = FALSE, index_id
         print(paste("File exists:", i))}
       else{write.csv(logger_ds, file = paste0(out_dir,  "id_",i), row.names = FALSE, sep = ",")}}
 
-
+    all_logger_ds[[i]] <- logger_ds
   }
 
-  #return(logger_ds = logger_ds)
-
+  return(all_logger_ds=all_logger_ds)
 
 }
 
