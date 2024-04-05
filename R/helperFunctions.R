@@ -17,12 +17,13 @@ check_file <- function(file){
   }
 }
 
-check_format <- function(input, csv_sep = ","){
+check_format <- function(input, csv_sep = ",", comment.char = '#'){
 
   extension <- tools::file_ext(input)
 
   if (extension == "csv"){
-    dataframe <- utils::read.csv(input, sep = csv_sep, header = TRUE)
+
+    dataframe <- utils::read.csv(input, sep = csv_sep, comment.char = comment.char , header = TRUE)
   }
   else if (extension == "xlsx"){
     dataframe <- readxl::read_excel(input)

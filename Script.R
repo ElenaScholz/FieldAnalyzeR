@@ -56,7 +56,7 @@ check_column_names <- function(list_dataframes){
   return(column_names = column_names)
 }
 
-column_names <- check_column_names(ds)
+#column_names <- check_column_names(ds)
 
 # rearrange time column, if date and time are in one column or a character and not in the date time format
 # rearranges it for only one dataset
@@ -116,6 +116,78 @@ for (i in seq_along(all_logger)){
 }
 
 
+group_data <- function(df, col_name_for_grouped_data){
+  if (col_name_for_grouped_data == Date){
+    daily_temperature_data <- df %>%
+      group_by(Date) %>%
+      summarise(mean_temperature = mean(X1.oC, na.rm = TRUE),
+                std_temperature = sd(X1.oC, na.rm = TRUE),
+                T_min = min(X1.oC, na.rm = TRUE),
+                T_max = max(X1.oC, na.rm = TRUE)) %>%
+      mutate(Year = year(Date),
+             Month = month(Date),
+             Day = day(Date))
+
+
+    # extract the id, x and y values
+    logger_id <- df$Logger_ID[1]
+    x <- df$X[1]
+    y <- df$Y[1]
+    # add these values to the new dataframe
+    daily_temperature_data <- daily_temperature_data %>%
+      mutate(Logger_ID = logger_id, X = x, Y = y) %>%
+      select(Logger_ID, Year, Month, Day, Date, mean_temperature, std_temperature, T_min, T_max, X, Y)
+  }
+
+
+}
+test <- coordinates$A50276
+
+library(dplyr)
+library(lubridate)
+
+
+
+
+
+
+library(ggplot2)
+library(ggplot2)
+
+daily_temperature_data %>%
+  ggplot(aes(x = Day, y = mean_temperature), g) +
+  geom_point(color = "darkorchid4") +
+  facet_wrap(~Year, ncol = 3) +
+ # scale_x_date(date_breaks = "1 month", date_labels = "%b") +  # Divide axis into months
+  labs(title = "Temperature - Logger1",
+       subtitle = "The data frame is sent to the plot using pipes",
+       y = "Daily Temperature (°C)",
+       x = "Date")+ theme_bw(base_size = 15)
+
+library(ggplot2)
+
+
+
+library(ggplot2)
+library(hrbrthemes)
+daily_temperature_data %>%
+  ggplot(aes(x = Day, y = mean_temperature, group = Year)) +
+  geom_line() +
+  labs(title = "Temperature - Logger1",
+       subtitle = "The data frame is sent to the plot using pipes",
+       y = "Daily Temperature (°C)",
+       x = "Date") +
+  theme_minimal() +
+  facet_wrap(~Year, ncol = 3)
+
+daily_temperature_data %>%
+  ggplot(aes(x = Day, y = mean_temperature))+
+  geom_line(color = "#69b3a2")+
+  xlab("")+
+  theme_ipsum()+
+  theme(axis.text.x = element_text(angle=60, hjust = 1))
+
+
 library(sf)
 make_spatial_data <- function(df, coordinate_column = c("X", "Y"), data_crs_original, transformed_crs = "+proj=longlat +datum=WGS84", preferred_df = "logger_wgs84") {
   logger_original_crs <- st_as_sf(df, coords = c("X", "Y"), crs = data_crs_original)
@@ -132,10 +204,18 @@ make_spatial_data <- function(df, coordinate_column = c("X", "Y"), data_crs_orig
 spatial_df <- list()
 
 for (i in seq_along(coordinates)){
-  print(i)
   sf_object <- make_spatial_data(coordinates[[i]], data_crs_original = "EPSG:21781")
   spatial_df[[i]] <- sf_object
 
   # Assign names to spatial_df if needed
   names(spatial_df)[i] <- unique(sf_object$Logger_ID)
 }
+
+
+
+
+
+
+# aggregate data functions
+
+# plots: https://r-graph-gallery.com/279-plotting-time-series-with-ggplot2.html
