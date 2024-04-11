@@ -23,10 +23,7 @@ returns a dataframe with the new column names
 rename_columns
 }
 \examples{
-list_df <- read_data(input_directory = "/home/ela/Documents/R-FinalExam/Muragl/")
-logger1 <- list_df$A50276_20231006143640.csv
 
-
-# Example renaming map
+rename_columns(df = read.csv("/home/ela/Documents/R-FinalExam/examples/01_logger.csv"))
 
 }

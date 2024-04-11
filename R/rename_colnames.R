@@ -9,20 +9,8 @@
 #' @import dplyr
 #'
 #' @examples
-#' list_df <- read_data(input_directory = "/home/ela/Documents/R-FinalExam/Muragl/")
-#' logger1 <- list_df$A50276_20231006143640.csv
 #'
-#'
-#'# Example renaming map
-# rename_map <- list(
-#   Number = "No",
-#   Logger_ID = "Logger_ID",
-#   Time = "Time",
-#   Temperature_C = "X1.oC",
-#   Battery_Voltage = "HK.Bat.V"
-# )
-#
-# rearrange_dataset(df, rename_map = rename_map)
+#' rename_columns(df = read.csv("/home/ela/Documents/R-FinalExam/examples/01_logger.csv"))
 #'
 #' @export
 #'
@@ -32,10 +20,8 @@ rename_columns <- function(df,rename_map = list(Number = "No",
                                                 Time = "Time",
                                                 Temperature_C = "X1.oC",
                                                 Battery_Voltage = "HK.Bat.V")){
-
   renamed_df <- df
 
-  # Rename columns if specified
   if (!is.null(rename_map)) {
     renamed_df <- dplyr::rename(renamed_df, !!!rename_map)
   }
