@@ -62,4 +62,54 @@ month_to_season <- function(month_num) {
   }
 }
 
-# data aggregation function
+# check if netrc file exists
+check_netrc_file <- function() {
+  # Path to the netrc file
+  netrc_path <- file.path(Sys.getenv('HOME'), ".netrc")
+
+  # Check if the netrc file exists
+  if (!file.exists(netrc_path)) {
+    cat("netrc file does not exist. Please call function setup_netrc_file() to set it up.\n")
+    return(FALSE)
+  } else {
+    cat("netrc file exists.\n")
+    return(TRUE)
+  }
+}
+
+# setup netrc file
+setup_netrc_file <- function() {
+  cat("Setting up netrc file...\n")
+  # Prompt for NASA Earthdata credentials
+  username <- readline("Enter NASA Earthdata Login Username: ")
+  password <- readline("Enter NASA Earthdata Login Password: ")
+
+  # Path to the netrc file
+  netrc_path <- file.path(Sys.getenv('HOME'), ".netrc")
+
+  # Write credentials to the netrc file
+  writeLines(
+    c(
+      "machine urs.earthdata.nasa.gov",
+      sprintf("login %s", username),
+      sprintf("password %s", password)
+    ),
+    netrc_path
+  )
+
+  cat("netrc file setup complete.\n")
+}
+
+# encode credentials
+encode_credentials <- function(login, password) {
+  # Concatenate login and password separated by a colon
+  credentials <- paste(login, password, sep = ":")
+
+  # Remove any spaces from the credentials
+  credentials <- gsub(' ', '', credentials)
+
+  # Encode the credentials in base64
+  encoded_credentials <- jsonlite::base64_enc(credentials)
+
+  return(encoded_credentials)
+}

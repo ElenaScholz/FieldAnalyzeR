@@ -12,9 +12,6 @@
 #' @import lubridate
 #' @importFrom stats sd
 #'
-#' @example
-#'
-#' aggregate_data(df = read.csv("/home/ela/Documents/R-FinalExam/examples/01_logger.csv"), aggregation_type = "daily, temperature_column = "Temperature_C")
 #'
 #' @export
 #'
