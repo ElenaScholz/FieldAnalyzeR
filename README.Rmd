@@ -16,9 +16,16 @@ knitr::opts_chunk$set(
 # loggeranalysis
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
-The goal of loggeranalysis is to ...
+## The goal of loggeranalysis is ...
+
+-   ... to automate the usual pre-processing steps of raw logger/groundsample-temperature data (e.g. formatting date and time, aggregate data or renaming columns)
+
+-   ... an easy access to reference data via an AppEEARS API integration allowing to download point samples (log-in, submit and download tasks)
+
+-   comparison between ground and reference datasets (create simple plots for comparison)
 
 ## Installation
 

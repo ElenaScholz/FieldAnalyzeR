@@ -27,7 +27,7 @@
 submit_processing_task <- function(task_name, products_df, filter_topic, token, start_date, end_date, coordinates){
   source("~/Documents/R-Projects/loggeranalysis/R/helperFunctions.R")
   # calling functions to filter products and their layers
-  filtered_products <- filter_products(df = products_df, filter_topic = filter_topic)
+  filtered_products <- filter_products_by_topic(df = products_df, filter_topic = filter_topic)
   product_layers <- get_product_layer_information(filtered_products)
 
 
@@ -79,6 +79,7 @@ submit_processing_task <- function(task_name, products_df, filter_topic, token, 
   #   remove(stat_content)
   #   print(stat)
   # }
-
-  return(task_id = task_id, token = token)
+  print("You'll receive an email if the task submission was successful and anotherone when your data is ready for download.
+        If you cannot access the task id from this function, you can find it inside these Emails")
+  return(task_id = task_id)
 }
