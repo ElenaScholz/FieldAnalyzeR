@@ -42,7 +42,8 @@ aggregate_data <- function(df, aggregation_type, temperature_column) {
       dplyr::summarise(mean_temperature = mean(Temperature_C),
                        std_temperature = stats::sd(Temperature_C),
                        min_temperature = min(Temperature_C),
-                       max_temperature = max(Temperature_C))
+                       max_temperature = max(Temperature_C),
+                       Logger_ID = dplyr::first(Logger_ID))
     return(monthly_temperature)
   } else if (aggregation_type == "annual") {
     annual_temperature <- dplyr::group_by(df, Year) %>%
@@ -50,6 +51,7 @@ aggregate_data <- function(df, aggregation_type, temperature_column) {
                        std_temperature = stats::sd(Temperature_C),
                        min_temperature = min(Temperature_C),
                        max_temperature = max(Temperature_C),
+                       Logger_ID = dplyr::first(Logger_ID),
                        .groups = "drop")
     return(annual_temperature)
   } else if (aggregation_type == "seasonal") {
@@ -64,6 +66,7 @@ aggregate_data <- function(df, aggregation_type, temperature_column) {
                        std_temperature = stats::sd(Temperature_C),
                        Tmin_temperature = min(Temperature_C),
                        Tmax_temperature = max(Temperature_C),
+                       Logger_ID = dplyr::first(Logger_ID),
                        .groups = "drop")
     return(seasonal_temperature)
   } else {

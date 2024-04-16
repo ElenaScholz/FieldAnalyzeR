@@ -113,3 +113,97 @@ encode_credentials <- function(login, password) {
 
   return(encoded_credentials)
 }
+
+# filter products by topic and layer
+
+filter_products_by_topic <- function(df, filter_topic = NULL, product_version = NULL){
+
+  # Initialize an empty dataframe to store the filtered results
+  filtered_df <- data.frame(ProductAndVersion = character(),
+                            Description = character(),
+                            Source = character(),
+                            TemporalGranularity = character(),
+                            stringsAsFactors = FALSE)
+
+  # Filter by both topic and product version if provided
+  if (!is.null(filter_topic) && !is.null(product_version)){
+    filtered_df <- subset(df, grepl(filter_topic, Description) & grepl(product_version, ProductAndVersion))
+  } else if (!is.null(filter_topic)){
+    # Filter only by topic if product version is not provided
+    filtered_df <- subset(df, grepl(filter_topic, Description))
+  } else if (!is.null(product_version)){
+    # Filter only by product version if topic is not provided
+    filtered_df <- subset(df, grepl(product_version, ProductAndVersion))
+  } else {
+    # If no filters are provided, return the original dataframe
+    return(df)
+  }
+
+  # If filtered dataframe is empty, return NULL
+  if (nrow(filtered_df) == 0) {
+    print("No datasets match the provided criteria.")
+    return(NULL)
+  }
+
+  # Prompt the user to choose a dataset
+  cat("Choose a dataset:\n")
+  for (i in 1:nrow(filtered_df)) {
+    cat(i, ": ", filtered_df[i, "ProductAndVersion"], "\n")
+    cat("    Description: ", filtered_df[i, "Description"], "\n")
+    cat("    Temporal Resolution: ", filtered_df[i, "TemporalGranularity"], "\n")
+  }
+
+  # Get user input for selecting a dataset
+  selected_index <- as.integer(readline(prompt = "Enter the number corresponding to the dataset: "))
+
+  # Check if the selected index is valid
+  if (selected_index < 1 || selected_index > nrow(filtered_df)) {
+    print("Invalid selection. Please enter a valid number.")
+    return(NULL)
+  }
+
+  # Get the selected dataset
+  selected_dataset <- filtered_df[selected_index, ]
+
+
+  # Return the selected dataset
+  product_name <- selected_dataset$ProductAndVersion
+  return(product_name)
+
+
+
+}
+
+
+get_product_layer <- function(product_name){
+  API_URL = 'https://appeears.earthdatacloud.nasa.gov/api/'
+  product <- product_name
+
+  # Request layers for the 1st product in the list: product
+  product_req <- httr::GET(paste0(API_URL,"product/", product))  # Request the info of a product from product URL
+  product_content <- httr::content(product_req)                             # Retrieve content of the request
+  product_response <- jsonlite::toJSON(product_content, auto_unbox = TRUE)      # Convert the content to JSON object
+  remove(product_req, product_content)                                # Remove the variables that are not needed anymore
+  #prettify(product_response)                                          # Print the prettified response
+  layer_names <- names(jsonlite::fromJSON(product_response))                                    # print the layer's names
+
+
+  cat("Choose layers (enter numbers seperated by spaces):\n")
+  for (i in seq_along(layer_names)){
+    cat(i, ": ", layer_names[i], "\n")
+  }
+
+  layer_names_indices <- as.integer(strsplit(readline(prompt = "Enter the numbers corresponding to the layers (enter numbers seperated by spaces): "), "\\s+")[[1]])
+
+  if (any(layer_names_indices < 1) || any(layer_names_indices > length(layer_names))) {
+    print("Invalid selection. Please enter valid numbers.")
+    return(NULL)
+  }
+  # Get the selected layers
+  selected_layers <- layer_names[layer_names_indices]
+
+  # Return the selected layers
+  # return(selected_layers)
+
+
+}
