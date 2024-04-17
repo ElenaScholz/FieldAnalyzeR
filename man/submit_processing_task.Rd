@@ -11,7 +11,7 @@ submit_processing_task(
   token,
   start_date,
   end_date,
-  coordinates
+  coordinates_dataframe
 )
 }
 \arguments{
@@ -27,10 +27,10 @@ submit_processing_task(
 
 \item{end_date}{MANDATORY -  Type: String - in format dd-mm-yy}
 
-\item{coordinates}{MANDATORY -  Type: array/matrix - in longitude, latitude}
+\item{coordinates_dataframe}{MANDATORY -  Type: dataframe - must have the following structure: id, longitude, latitude, category-name. The category name defines the name for the different sites you collect data from}
 }
 \value{
-task status, task_id and the token
+task_id
 }
 \description{
 the function "submit_processing_task()" submits a data request to the AppEEARS platform.

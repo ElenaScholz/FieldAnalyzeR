@@ -6,8 +6,7 @@
 #' @param Coordinate_Column_Name MANDATORY - Type: String - the column that contains the logger id and on which the coordinates will be merged to the dataframe
 #'
 #' @return logger dataset with the coordinates for the logger position
-#' @examples
-#' add_coordinates(df = read.csv("/home/ela/Documents/R-FinalExam/examples/02_logger.csv"), "/home/ela/Documents/R-FinalExam/Loggerpositionen_Muragl.csv")
+#'
 #' @export
 #'
 

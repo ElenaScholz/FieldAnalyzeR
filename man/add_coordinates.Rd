@@ -19,6 +19,3 @@ logger dataset with the coordinates for the logger position
 \description{
 'add_coordinates' will add the coordinates in new columns to an existing dataframe. They are added based on an identifier column
 }
-\examples{
-add_coordinates(df = read.csv("/home/ela/Documents/R-FinalExam/examples/02_logger.csv"), "/home/ela/Documents/R-FinalExam/Loggerpositionen_Muragl.csv")
-}
