@@ -18,7 +18,7 @@
 #'
 
 read_data <- function(input_directory, csv_sep = ",", csv_comment_character = '#', add_ID_from_filename = TRUE, index_id = c(0, 6)) {
-  source("~/Documents/R-Projects/loggeranalysis/R/helperFunctions.R")
+
   check_path(input_directory)
   files <- list.files(input_directory)
 

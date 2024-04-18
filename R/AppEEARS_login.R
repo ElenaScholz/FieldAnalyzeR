@@ -16,8 +16,6 @@
 #'
 appeears_login <- function() {
 
-  source("~/Documents/R-Projects/loggeranalysis/R/helperFunctions.R")
-
   if (!check_netrc_file()) {
     setup_netrc_file()
   }

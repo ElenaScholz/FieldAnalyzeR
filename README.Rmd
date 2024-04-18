@@ -13,13 +13,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-# loggeranalysis
+# FieldTempAnalyzeR
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-## The goal of loggeranalysis is ...
+## The goal of FieldTempAnalyzeR is ...
 
 -   ... to automate the usual pre-processing steps of raw logger/groundsample-temperature data (e.g. formatting date and time, aggregate data or renaming columns)
 

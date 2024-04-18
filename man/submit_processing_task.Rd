@@ -7,7 +7,7 @@
 submit_processing_task(
   task_name,
   products_df,
-  filter_topic,
+  topic_filter,
   token,
   start_date,
   end_date,
@@ -19,7 +19,7 @@ submit_processing_task(
 
 \item{products_df}{MANDATORY -  Type: dataframe - created through the function show_appeears_products()}
 
-\item{filter_topic}{MANDATORY -  Type: String - the topic of your dataanalysis (e.g. LST, NDVI, NDSI)}
+\item{topic_filter}{MANDATORY -  Type: String - the topic of your dataanalysis (e.g. LST, NDVI, NDSI)}
 
 \item{token}{MANDATORY -  Type:  - String in JSON Type - generated through the function appeears_login()}
 

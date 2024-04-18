@@ -4,7 +4,7 @@
 #'
 #' @param task_name MANDATORY -  Type: String - Name of the task you want to download
 #' @param products_df MANDATORY -  Type: dataframe - created through the function show_appeears_products()
-#' @param filter_topic MANDATORY -  Type: String - the topic of your dataanalysis (e.g. LST, NDVI, NDSI)
+#' @param topic_filter MANDATORY -  Type: String - the topic of your dataanalysis (e.g. LST, NDVI, NDSI)
 #' @param token MANDATORY -  Type:  - String in JSON Type - generated through the function appeears_login()
 #' @param start_date MANDATORY -  Type: String - in format dd-mm-yy
 #' @param end_date MANDATORY -  Type: String - in format dd-mm-yy
@@ -27,10 +27,10 @@
 #'
 
 
-submit_processing_task <- function(task_name, products_df, filter_topic, token, start_date, end_date, coordinates_dataframe){
-  source("~/Documents/R-Projects/loggeranalysis/R/helperFunctions.R")
+submit_processing_task <- function(task_name, products_df, topic_filter, token, start_date, end_date, coordinates_dataframe){
   # calling functions to filter products and their layers
-  filtered_products <- filter_products_by_topic(df = products_df, filter_topic = filter_topic)
+  filter_products_by_topic(data = products_df, topic_filter = topic_filter)
+
   product_layers <- get_product_layer(filtered_products)
 
 
@@ -74,8 +74,7 @@ submit_processing_task <- function(task_name, products_df, filter_topic, token, 
   stat <- jsonlite::fromJSON(statusResponse)$status
   jsonlite::prettify(statusResponse)
 
-  print("You'll receive an email if the task submission was successful and anotherone when your data is ready for download.
-        If you cannot access the task id from this function, you can find it inside these Emails")
-
+  print("You'll receive an email if the task submission was successful and anotherone when your data is ready for download. If you cannot access the task id from this function, you can find it inside these Emails")
+  print(paste("Your Task-id is:", task_id))
   return(task_id = task_id)
 }
