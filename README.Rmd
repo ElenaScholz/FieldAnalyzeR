@@ -19,21 +19,59 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-## The goal of FieldTempAnalyzeR is ...
+## The goal of PACKAGENAME is ...
 
--   ... to automate the usual pre-processing steps of raw logger/groundsample-temperature data (e.g. formatting date and time, aggregate data or renaming columns)
+The primary objective of the provided package is to:
 
--   ... an easy access to reference data via an AppEEARS API integration allowing to download point samples (log-in, submit and download tasks)
+-   Simplify the preprocessing steps for in-situ temperature data time series selection.
 
--   comparison between ground and reference datasets (create simple plots for comparison)
+-   Enable users to focus on data analysis.
+
+-   Facilitate access to AppEEARS data within R, particularly referencing datasets derived from remote sensing applications.
+
+    <!-- -->
 
 ## Installation
 
-You can install the development version of loggeranalysis like so:
+You can install the development version of PACKAGENAME like so:
 
 ``` r
-# devtools::install_github("ElenaScholz/loggeranalysis")
+# devtools::install_github("ElenaScholz/PACKAGENAME")
 ```
+
+## Workflow
+
+1.  Data Analysis of field Temperature Data
+
+    1.  Read in data and reorganize it into a list of data frames
+
+    2.  Improve the column readability by renaming them
+
+    3.  Enhance data structure by mutating the date/time column
+
+    4.  Aggregate data frames by Year, Month, Day or Season
+
+2.  Exploration of the Datasets
+
+    1.  Create simple plots to gain an overview of the logger data.
+
+    2.  Utilize the 'show_appeears_products' function to explore all available AppEEARS products.
+
+3.  Retrive Reference Data
+
+    1.  Authenticate with AppEEARS using 'appeears_login' to obtain a token
+
+    2.  Submit tasks to download reference data and filter all products by the topics for your analysis
+
+4.  Data Download and Processing
+
+    1.  After the task submission is done you'll receive an Email and you can start the data download
+
+5.  Integration and Visualization
+
+    1.  Apply similar pre-processing steps (1.1 -1.4) to the downloaded reference datasets
+
+    2.  Plot logger data and reference datasets together
 
 ## Example
 
