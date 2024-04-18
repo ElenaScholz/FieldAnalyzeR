@@ -1,10 +1,10 @@
-Package: loggeranalysis
-Title: What the Package Does (One Line, Title Case)
+Package: FieldTempAnalyzeR
+Title: FieldTempAnalyzeR analyzes field temperature data.
 Version: 0.0.0.9000
 Authors@R: 
     person("Elena", "Scholz", , "elenascholz@hotmail.de", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: The package analyzes field temperature data and utilizies reference data from AppEEARS. It provides functions for the data transformations and the download of the reference datasets. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
