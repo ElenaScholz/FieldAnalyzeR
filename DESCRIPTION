@@ -1,5 +1,5 @@
-Package: FieldTempAnalyzeR
-Title: FieldTempAnalyzeR analyzes field temperature data.
+Package: fastR
+Title: fastR analyzes field temperature data.
 Version: 0.0.0.9000
 Authors@R: 
     person("Elena", "Scholz", , "elenascholz@hotmail.de", role = c("aut", "cre"),
