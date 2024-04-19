@@ -1,3 +1,5 @@
+#' check_netrc_file
+#'
 #' Check if the .netrc File Exists
 #'
 #' This function checks if the .netrc file exists in the user's home directory.

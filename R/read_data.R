@@ -46,32 +46,3 @@ read_data <- function(input_directory, csv_sep = ",", csv_comment_character = '#
   }
 }
 
-
-# read_data <- function(input_directory, csv_sep = ",", csv_comment_character = '#', add_ID_from_filename = TRUE, index_id = c(0, 6)) {
-#   source("~/Documents/R-Projects/loggeranalysis/R/helperFunctions.R")
-#   check_path(input_directory)
-#   files <- list.files(input_directory)
-#
-#   logger_dataframes <- list()
-#
-#   if (length(files) == 1) {
-#     check_file(paste0(input_directory, files))
-#     logger_dataframe <- check_format(paste0(input_directory, files))
-#     if (add_ID_from_filename) {
-#       id_logger <- substr(files, index_id[1], index_id[2])
-#       dataframe$Logger.ID <- id_logger
-#     }
-#     return(logger_dataframe)
-#   } else {
-#     for (i in files) {
-#       check_file(paste0(input_directory, i))
-#       dataframe <- check_format(paste0(input_directory, i))
-#       if (add_ID_from_filename) {
-#         id_logger <- substr(i, index_id[1], index_id[2])
-#         dataframe$Logger_ID <- id_logger
-#       }
-#       logger_dataframe[[i]] <- dataframe
-#     }
-#     return(logger_dataframes)
-#   }
-# }

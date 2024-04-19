@@ -5,7 +5,6 @@
 #' @param dir - A String containing the directory path
 #'
 #' @noRd
-#'
 
 check_path <- function(dir){
   if (!is.character(dir)){
@@ -22,7 +21,6 @@ check_path <- function(dir){
 #'
 #' @param file A string containing the file
 #' @noRd
-#'
 
 
 check_file <- function(file){
@@ -45,7 +43,6 @@ check_file <- function(file){
 #' @return A dataframe
 #'
 #' @noRd
-#'
 
 check_format <- function(input_dataset, csv_sep = ",", comment.char = '#'){
 
@@ -77,7 +74,6 @@ check_format <- function(input_dataset, csv_sep = ",", comment.char = '#'){
 #'
 #'
 #' @noRd
-#'
 check_save <- function(save, out_dir){
   if (save){
     if (is.null(out_dir)){

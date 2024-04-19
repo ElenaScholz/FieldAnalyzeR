@@ -39,6 +39,11 @@ You can install the development version of PACKAGENAME like so:
 # devtools::install_github("ElenaScholz/PACKAGENAME")
 ```
 
+## Prerequisites
+
+-   InSitu or other Time Series Data with the Informations to be analysed (Should look similar to the provided datasets)
+-   An account to NASA's EARTHDATA portal ([Create a new Account](http://urs.earthdata.nasa.gov) ) to download reference data
+
 ## Workflow
 
 1.  Data Analysis of field Temperature Data
@@ -75,11 +80,43 @@ You can install the development version of PACKAGENAME like so:
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This codesnippet shows the workflow for preparing the data for the analysis
 
 ```{r example}
-library(loggeranalysis)
-## basic example code
+library(fastR)
+
+
+input_directory <- system.file("extdata/", package = "fastR")
+
+### 1. Read in the Datasets with the function "read_data"
+  # for the given example datasets, the ID can be added from the filename. 
+raw_data <- read_data(input_directory = input_directory, csv_sep = ",",
+                      csv_comment_character = "#",
+                      add_ID_from_filename = TRUE,
+                      index_id = c(0, 6)
+) 
+
+  # take a look at the structure of raw_data and one dataset
+str(raw_data)
+
+### 2. Rename the columns to make the Analysis easier
+
+sample_data <- rename_columns(raw_data, 
+                               rename_map = list(Number = "No", 
+                                                 Logger_ID = "Logger.ID", 
+                                                 Time = "Time", 
+                                                 Temperature_C  = "X1.oC",
+                                                 Battery_Voltage = "HK.Bat.V"))
+
+### 3. Date Conversion 
+  # for further analysis it is necessary to have the Date converted to the type         "Date". Therefore check if the format of the Time Column. 
+
+
+sample_data <- mutate_dates(sample_data, time_column = "Time",
+                            time_format = "%d.%m.%Y %H:%M:%S")
+
+head(sample_data)
+
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:

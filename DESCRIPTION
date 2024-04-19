@@ -21,3 +21,6 @@ Imports:
     sf,
     tools,
     utils
+Depends: 
+    R (>= 2.10)
+LazyData: true

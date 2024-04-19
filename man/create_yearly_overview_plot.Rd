@@ -4,16 +4,10 @@
 \alias{create_yearly_overview_plot}
 \title{create_yearly_overview_plot}
 \usage{
-create_yearly_overview_plot(daily_data, x_var, y_var, group_var, title)
+create_yearly_overview_plot(daily_data, title)
 }
 \arguments{
 \item{daily_data}{Type: list of dataframes or a dataframe - the input dataset - aggregated on a daily basis can be a list of dataframes or one big dataframe}
-
-\item{x_var}{variable for the x-axis}
-
-\item{y_var}{variable for the y-axis}
-
-\item{group_var}{the grouping variable for facet_wrap()}
 
 \item{title}{The title of the plot}
 }

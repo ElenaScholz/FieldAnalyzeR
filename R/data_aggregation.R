@@ -28,6 +28,7 @@ aggregate_data <- function(df, aggregation_type, temperature_column) {
 
   if (aggregation_type == "daily") {
     daily_temperature <- dplyr::group_by(df, Date) %>%
+      dplyr::filter(!is.na(Temperature_C)) %>%
       dplyr::summarise(mean_temperature = mean(Temperature_C),
                        std_temperature = stats::sd(Temperature_C),
                        min_temperature = min(Temperature_C),
@@ -39,6 +40,7 @@ aggregate_data <- function(df, aggregation_type, temperature_column) {
     return(daily_temperature)
   } else if (aggregation_type == "monthly") {
     monthly_temperature <- dplyr::group_by(df, Month, Year) %>%
+      dplyr::filter(!is.na(Temperature_C)) %>%
       dplyr::summarise(mean_temperature = mean(Temperature_C),
                        std_temperature = stats::sd(Temperature_C),
                        min_temperature = min(Temperature_C),
@@ -47,6 +49,7 @@ aggregate_data <- function(df, aggregation_type, temperature_column) {
     return(monthly_temperature)
   } else if (aggregation_type == "annual") {
     annual_temperature <- dplyr::group_by(df, Year) %>%
+      dplyr::filter(!is.na(Temperature_C)) %>%
       dplyr::summarise(mean_temperature = mean(Temperature_C),
                        std_temperature = stats::sd(Temperature_C),
                        min_temperature = min(Temperature_C),
@@ -62,6 +65,7 @@ aggregate_data <- function(df, aggregation_type, temperature_column) {
       TRUE ~ "Winter"
     )) %>%
       dplyr::group_by(Year = lubridate::year(Date), Season) %>%
+      dplyr::filter(!is.na(Temperature_C)) %>%
       dplyr::summarise(mean_temperature = mean(Temperature_C),
                        std_temperature = stats::sd(Temperature_C),
                        Tmin_temperature = min(Temperature_C),
