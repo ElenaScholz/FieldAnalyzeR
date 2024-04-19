@@ -76,7 +76,9 @@ You can install the development version of PACKAGENAME like so:
 
 ## Example
 
-### Preprocessing
+### Analysis of the field datasets
+
+\####1. Preprocessing
 
 This codesnippet shows the workflow for preparing the data for the
 analysis
@@ -137,9 +139,63 @@ head(sample_data)
 #> 6    253 September 2010
 ```
 
+#### 2. Data analysis
+
+To analyse the data, the hourly temperature datasets will be converted
+into daily and monthly datasets (also possible for annual and seasonal)
+
+``` r
+
+daily_temperature <- aggregate_data(sample_data, aggregation_type = "daily", temperature_column = "Temperature_C")
+
+monthly_temperature <- aggregate_data(sample_data, aggregation_type = "monthly", temperature_column = "Temperature_C")
+```
+
+``` r
+# generate simple plots to see the developement of the temperature over time
+
+daily_temp_plot <- ggplot2::ggplot(daily_temperature, ggplot2::aes(x = Julian, y = mean_temperature)) +
+    ggplot2::geom_line(color = '#6bd2db', linewidth = 1) +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
+                   axis.title.x = ggplot2::element_blank(),
+                   axis.title.y = ggplot2::element_blank()) +
+    ggplot2::ggtitle("Development of temperature for Julian Date") +
+    ggplot2::facet_wrap(~Year) +
+    ggplot2::labs(subtitle = paste("Logger ID:", unique(daily_temperature$Logger_ID)))
+
+daily_temp_plot
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+``` r
+
+
+
+monthly_temp_plot <- ggplot2::ggplot(monthly_temperature, ggplot2::aes(Year, mean_temperature, colour = Month)) +
+  ggplot2::geom_point(size = 0.5) +
+  ggplot2::geom_smooth() +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
+        axis.title.x = ggplot2::element_blank(),
+        legend.position = "none") +
+  ggplot2::labs(x = "Year",
+        y = "Mean Temperature") +
+  ggplot2::facet_wrap(~Month) +
+  ggplot2::ggtitle("Development of temperature per Month")
+
+
+monthly_temp_plot
+#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+```
+
+<img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
+
 ### Get reference data
 
-1.  Load in Coordinate file and examine the structure
+Wieso werden Referenzdaten gewählt??
+
+\####1. Load in Coordinate file and examine the structure
 
 ``` r
 
@@ -157,7 +213,8 @@ head(coordinates)
 #> 1   1  testdata 782414 158097 EPSG:21781
 ```
 
-### 2. create a spatial dataset, that converts the original coordinatesystem into longitude and latitude
+\####2. create a spatial dataset, that converts the original
+coordinatesystem into longitude and latitude
 
 ``` r
 coordinates_transformed <- make_spatial_data(coordinates, coordinate_column = c("X", "Y"), data_crs_original = coordinates$EPSG, transformed_crs = "+proj=longlat +datum=WGS84", logger_id_column = "Logger.ID")
@@ -169,7 +226,7 @@ class(coordinates_transformed)
 appeears_coordinates <- coordinates_transformed$coordinates_df
 ```
 
-### 3. Login to AppEEARS and generate a token
+#### 3. Login to AppEEARS and generate a token
 
 ``` r
 
@@ -177,13 +234,13 @@ token <- appeears_login()
 #> The .netrc file exists.
 ```
 
-### 4. get an overview over all appeears products and choose which reference data you want to download
+#### 4. get an overview over all appeears products and choose which reference data you want to download
 
 ``` r
 products <- show_appeears_products()
 ```
 
-### 5. submit a processing task for the reference data
+#### 5. submit a processing task for the reference data
 
     # in this case reference data for landsurface temperature (LST) and        Snow Cover is chosen (NDSI)
 
@@ -194,18 +251,17 @@ end_date <- "06-10-2023"
 
 #lst_submission <- submit_processing_task(task_name = "example_lst", products_df = products, topic_filter = "LST", token = token, start_date = start_date, end_date = end_date, coordinates_dataframe = appeears_coordinates) 
 
-#ndsi_submission <- submit_processing_task(task_name = "example_lst", products_df = products, topic_filter = "NDSI", token = token, start_date = start_date, end_date = end_date, coordinates_dataframe = appeears_coordinates) 
+#ndsi_submission <- submit_processing_task(task_name = "example_ndsi", products_df = products, topic_filter = "NDSI", token = token, start_date = start_date, end_date = end_date, coordinates_dataframe = appeears_coordinates) 
 ```
 
-### 6. download the reference data - this may take a while therefore the preprocessed datasets are given in xxx xxx
+#### 6. download the reference data - this may take a while therefore the preprocessed datasets are given in xxx xxx
 
-output_directory = “define/your/output/directory”
+``` r
+ouput_directory = "define/your/output/directory"
 
-download_task_bundle(task_id = lst_submission, token = token,
-ouput_directory = output_directory) download_task_bundle(task_id =
-lst_submission, token = token, ouput_directory = output_directory)
-
-\`\`\`
+#download_task_bundle(task_id =     lst_submission, token = token, output_directory = ouput_directory)
+#download_task_bundle(task_id = ndsi_submission, token = token, output_directory = ouput_directory)
+```
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date. `devtools::build_readme()` is handy for this.
