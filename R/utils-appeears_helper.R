@@ -149,6 +149,7 @@ filter_products_by_topic <- function(data, topic_filter = NULL, version_filter =
 #' @return A character vector containing the selected layers.
 #'
 #' @noRd
+#'
 get_product_layer <- function(selected_product) {
   API_URL <- 'https://appeears.earthdatacloud.nasa.gov/api/'
   product <- selected_product
