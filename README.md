@@ -213,8 +213,7 @@ head(coordinates)
 #> 1   1  testdata 782414 158097 EPSG:21781
 ```
 
-\####2. create a spatial dataset, that converts the original
-coordinatesystem into longitude and latitude
+#### 2. create a spatial dataset, that converts the original coordinatesystem into longitude and latitude
 
 ``` r
 coordinates_transformed <- make_spatial_data(coordinates, coordinate_column = c("X", "Y"), data_crs_original = coordinates$EPSG, transformed_crs = "+proj=longlat +datum=WGS84", logger_id_column = "Logger.ID")
@@ -263,10 +262,14 @@ ouput_directory = "define/your/output/directory"
 #download_task_bundle(task_id = ndsi_submission, token = token, output_directory = ouput_directory)
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+### Look at reference datasets
 
-You can also embed plots, for example:
+The downloaded datasets were filtered by quality.
+
+``` r
+
+preprocessed_referencedata <- lst_ndsi_subset
+```
 
 <img src="man/figures/README-pressure-1.png" width="100%" />
 

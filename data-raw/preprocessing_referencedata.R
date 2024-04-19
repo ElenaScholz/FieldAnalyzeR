@@ -18,6 +18,10 @@ create_subset <- function(data, columns) {
     dplyr::select({{ columns }})
 }
 
+merge_dataframes <- function(df1, df2) {
+  merged_df <- merge(df1, df2, by = "Date")
+  return(merged_df)
+}
 ####
 
 
@@ -53,6 +57,15 @@ lst_combined <- left_join(lst_day, lst_night, by = c("Logger_ID", "Date"), suffi
 
 lst_daily <- lst_combined %>% mutate(Temperature_C = ((Temperature_Day + Temperature_Night) / 2) - 273.15)
 
+combined_data <- merge_dataframes(ndsi_daily, lst_daily)
+# Subset the dataset to keep only the desired variables
+
+lst_ndsi_subset <- combined_data %>%
+  select(Date, Logger_ID.x, SnowCover, Julian, Month, Year, Temperature_C) %>%
+  rename(Logger_ID = Logger_ID.x,
+         LST_C = Temperature_C)
+
 
 usethis::use_data(lst_daily, overwrite = TRUE)
 usethis::use_data(ndsi_daily, overwrite = TRUE)
+usethis::use_data(lst_ndsi_subset, overwrite = TRUE)

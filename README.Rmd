@@ -181,7 +181,7 @@ str(coordinates)
 head(coordinates)
 ```
 
-####2. create a spatial dataset, that converts the original coordinatesystem into longitude and latitude
+#### 2. create a spatial dataset, that converts the original coordinatesystem into longitude and latitude
 
 ```{r transformation}
 coordinates_transformed <- make_spatial_data(coordinates, coordinate_column = c("X", "Y"), data_crs_original = coordinates$EPSG, transformed_crs = "+proj=longlat +datum=WGS84", logger_id_column = "Logger.ID")
@@ -231,9 +231,16 @@ ouput_directory = "define/your/output/directory"
 
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+### Look at reference datasets
 
-You can also embed plots, for example:
+The downloaded datasets were filtered by quality. 
+
+```{r}
+
+preprocessed_referencedata <- lst_ndsi_subset
+
+```
+
 
 ```{r pressure, echo = FALSE}
 plot(pressure)
