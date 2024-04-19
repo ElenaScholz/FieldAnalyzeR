@@ -29,7 +29,7 @@
 
 submit_processing_task <- function(task_name, products_df, topic_filter, token, start_date, end_date, coordinates_dataframe){
   # calling functions to filter products and their layers
-  filter_products_by_topic(data = products_df, topic_filter = topic_filter)
+  filtered_products <- filter_products_by_topic(data = products_df, topic_filter = topic_filter)
 
   product_layers <- get_product_layer(filtered_products)
 

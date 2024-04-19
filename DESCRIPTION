@@ -19,6 +19,7 @@ Imports:
     readxl,
     rlang,
     sf,
+    tibble,
     tools,
     utils
 Depends: 

@@ -2,30 +2,32 @@
 % Please edit documentation in R/make_spatial.R
 \name{make_spatial_data}
 \alias{make_spatial_data}
-\title{Create a spatial object in wgs84 coordinates}
+\title{Convert Spatial Data to WGS84 Coordinates}
 \usage{
 make_spatial_data(
   df,
   coordinate_column = c("X", "Y"),
   data_crs_original,
   transformed_crs = "+proj=longlat +datum=WGS84",
-  preferred_spatial_object = "logger_wgs84"
+  logger_id_column = "Logger_ID"
 )
 }
 \arguments{
-\item{df}{MANDATORY - Type:dataframe - df must be with coordinates}
+\item{df}{A data frame containing spatial data.}
 
-\item{coordinate_column}{OPTIONAL - Type: a vector - defining the columnnames for the coordinates}
+\item{coordinate_column}{A character vector specifying the column names for the X and Y coordinates.}
 
-\item{data_crs_original}{MANDATORY - Type: String - String with EPSG code in the format :"EPSG:XXXXX"}
+\item{data_crs_original}{The CRS of the original spatial data.}
 
-\item{transformed_crs}{OPTIONAL - Type: String - the crs to which the original should be transformed}
+\item{transformed_crs}{The target CRS for transformation. Defaults to WGS84.}
 
-\item{preferred_spatial_object}{OPTIONAL - Type: String - choose between : "logger_wgs84" , "logger_original_crs"}
+\item{logger_id_column}{The name of the column containing the logger IDs. Defaults to "Logger_ID".}
 }
 \value{
-an sf object
+A list with two elements:
+\item{spatial_object}{The spatial object transformed to WGS84 coordinates.}
+\item{coordinates_df}{A data frame containing the WGS84 longitude, latitude coordinates along with the logger IDs.}
 }
 \description{
-Create a spatial object in wgs84 coordinates
+This function takes spatial data in a specified coordinate reference system (CRS) and transforms it to WGS84 coordinates.
 }

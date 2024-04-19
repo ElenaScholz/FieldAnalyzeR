@@ -80,13 +80,15 @@ You can install the development version of PACKAGENAME like so:
 
 ## Example
 
+### Preprocessing
+
 This codesnippet shows the workflow for preparing the data for the analysis
 
 ```{r example}
 library(fastR)
 
 
-input_directory <- system.file("extdata/", package = "fastR")
+input_directory <- system.file("extdata/Logger/", package = "fastR")
 
 ### 1. Read in the Datasets with the function "read_data"
   # for the given example datasets, the ID can be added from the filename. 
@@ -113,16 +115,49 @@ sample_data <- rename_columns(raw_data,
 
 
 sample_data <- mutate_dates(sample_data, time_column = "Time",
-                            time_format = "%d.%m.%Y %H:%M:%S")
+                            time_format = "%d.%m.%Y %H:%M")
 
 head(sample_data)
 
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+### Get reference data
 
-```{r cars}
-summary(cars)
+```{r }
+### 1. Load in Coordinate file and examine the structure
+coordinates <- read_data(input_directory = system.file("extdata/Coordinates/", package = "fastR"), add_ID_from_filename = FALSE)
+  # Look at the dataset - it contains information about x and y            position 
+str(coordinates)
+head(coordinates)
+
+
+### 2. create a spatial dataset, that converts the original                   coordinatesystem into longitude and latitude 
+
+coordinates_transformed <- make_spatial_data(coordinates, coordinate_column = c("X", "Y"), data_crs_original = coordinates$EPSG, transformed_crs = "+proj=longlat +datum=WGS84", logger_id_column = "Logger.ID")
+
+  # the new dataset is a list containing an sf-object and a dataframe      for the download
+class(coordinates_transformed)
+
+appeears_coordinates <- coordinates_transformed$coordinates_df
+
+### 3. Login to AppEEARS and generate a token 
+
+token <- appeears_login()
+
+### 4. get an overview over all appeears products and choose which reference data you want to download
+
+products <- show_appeears_products()
+
+### 5. submit a processing task for the reference data
+    # in this case reference data for landsurface temperature (LST) and        Snow Cover is chosen (NDSI)
+start_date <- min(sample_data$Date)
+end_date <- max(sample_data$Date)
+
+lst_submission <- submit_processing_task(task_name = "example_lst", products_df = products, topic_filter = "LST", token = token, start_date = start_date, end_date = end_date) 
+
+ndsi_submission <- submit_processing_task(task_name = "example_lst", products_df = products, topic_filter = "NDSI", token = token, start_date = start_date, end_date = end_date) 
+### 6. download the reference data
+
 ```
 
 You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
