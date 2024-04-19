@@ -4,10 +4,12 @@
 \alias{create_daily_plot}
 \title{create_daily_plot}
 \usage{
-create_daily_plot(data)
+create_daily_plot(data, title)
 }
 \arguments{
 \item{data}{A dataframe containing daily temperature data with columns "Julian", "mean_temperature", and "Logger_ID".}
+
+\item{title}{The title of the plot}
 }
 \value{
 A ggplot object displaying the temperature development over time.

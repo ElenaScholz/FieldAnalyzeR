@@ -1,0 +1,30 @@
+#' Normalized Difference Snow Index (NDSI) Daily Dataset
+#'
+#' This dataset contains daily observations of the Normalized Difference Snow Index (NDSI)
+#' and quality indicators for snow cover measurements collected from test data loggers.
+#'
+#' @format
+#' A data frame with 4869 observations and 7 variables:
+#' \describe{
+#'   \item{Logger_ID}{Identifier for the data logger.}
+#'   \item{Date}{Date of the observation.}
+#'   \item{SnowCover}{Percentage of snow cover. NA indicates missing or unavailable data.}
+#'   \item{Quality}{Quality indicator for snow cover measurement.}
+#'   \item{Julian}{Julian day of the observation.}
+#'   \item{Month}{Month of the observation (as a factor).}
+#'   \item{Year}{Year of the observation.}
+#' }
+#'
+#' @source
+#' https://appeears.earthdatacloud.nasa.gov/
+#'
+#' The original dataset was downloaded with AppEEARS containing the following layers:
+#' NDSI_Snow_Cover (MOD10A1.061)
+#' Spatial details: 1, testdata, 46.5493, 9.8174
+#'
+#' Note: Snow cover percentages are provided as numeric values, where NA indicates
+#' missing or unavailable data.
+#'
+#' @examples
+#' data(lst_daily)
+"ndsi_daily"
