@@ -1,12 +1,34 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# fastR
+# FieldAnalyzeR
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-## The goal of PACKAGENAME is …
+The collection of field data is an important part of climate and
+environmental analysis, providing crucial insights into dynamics of our
+ecosystems. However, evaluating field data can be complex, influenced by
+various factors such as measurement techniques and environmental
+conditions.  
+Time series analysis is as a vital tool in this context, enabling us to
+monitor temporal changes in key variables like temperature and
+precipitation with precision.
+
+Validating field data often requires comparison with other sources of
+information. Remote sensing, with its ability to capture data over large
+spatial and temporal scales, can complement the gathered field
+observations. By integrating remote sensing-derived time series with
+field data, it is possible to gain a comprehensive understanding of
+environmental dynamics.
+
+In this context, FieldAnalyzeRAGENAME aims to simplify the preprocessing
+steps for field data analysis, with a focus on in-situ temperature data.
+By facilitating access to AppEEARS data within the R environment,
+FieldAnalyzeRAGENAME makes the access to reference data easier and helps
+to focus on the data analysis
+
+## The goal of FieldAnalyzeRAGENAME is …
 
 The primary objective of the provided package is to:
 
@@ -22,72 +44,101 @@ The primary objective of the provided package is to:
 
 ## Installation
 
-You can install the development version of PACKAGENAME like so:
+You can install the development version of FieldAnalyzeRAGENAME like so:
 
 ``` r
-# devtools::install_github("ElenaScholz/PACKAGENAME")
+# devtools::install_github("ElenaScholz/FieldAnalyzeRAGENAME")
 ```
 
 ## Prerequisites
 
-- InSitu or other Time Series Data with the Informations to be analysed
-  (Should look similar to the provided datasets)
-- An account to NASA’s EARTHDATA portal ([Create a new
-  Account](http://urs.earthdata.nasa.gov) ) to download reference data
+Before using FieldAnalyzeR, ensure you have the following prerequisites:
+
+    1.  **InSitu or other Time Series Data**: You'll need access to in-situ or similar time series data containing the information you intend to analyze. The format of your data should be compatible with the provided datasets or can be easily transformed to match them.
+
+    2.  **NASA's EARTHDATA Portal Account**: FieldAnalyzeR leverages NASA's EARTHDATA portal to access and download reference data. If you don't have an account yet, you can create one here:([Create a new Account](http://urs.earthdata.nasa.gov)). This account is essential for retrieving reference data necessary for your analyses.
 
 ## Workflow
 
-1.  Data Analysis of field Temperature Data
+<!-- ### Data Analysis of field Temperature Data -->
 
-    1.  Read in data and reorganize it into a list of data frames
+1.  **Read in Data:** Use **‘read_data()’** to import your datasets. It
+    takes the input of a directory, so make sure your raw data is stored
+    in one folder without any other datasets or files.
+2.  **Improve the Column Readability:** Utilize **‘rename_columns()’**
+    to enhance the readability of your column names. Data collected in
+    the field or through Logger often contains predefined variable names
+    that need clarification
+3.  **Enhance the Data Structure:** Use **‘mutate_dates()’** to mutate
+    the date/time column to an appropriate format
+4.  **Aggregate your Data Frame:** Use **‘aggregate_data()’** to
+    aggregate the data frame by Year, Month, Day or Season.
 
-    2.  Improve the column readability by renaming them
+### Exploration of the Datasets
 
-    3.  Enhance data structure by mutating the date/time column
+The exploration of the datasets and the knowledge you have about your
+Area of interest helps you to decide which reference data you want to
+explore and use to correlate your data with.
 
-    4.  Aggregate data frames by Year, Month, Day or Season
+Within the package you have access to the AppEEARS products. To get an
+overview over all available products use
+**‘show_appears_products()’**.  
+This function will return a data frame with all available products, a
+short description and the temporal resolution.
 
-2.  Exploration of the Datasets
+### Retrieve Reference Data
 
-    1.  Create simple plots to gain an overview of the logger data.
+1.  **Authenticate with AppEEARS:** Use **‘appeears_login()’** to
+    authenticate with AppEEARS and obtain a token.
+2.  **Submit a Task:** Utilize the function
+    **‘submit_processing_task()’** to submit a task for downloading your
+    reference data. The function takes your token as an input, and
+    filters all the available products by a topic. It is interactive and
+    allow you to choose out of a subset of products for your topic and
+    the available layer.  
+      
+    After task submission you’ll receive an email notification that your
+    task will be processed.
 
-    2.  Utilize the ‘show_appeears_products’ function to explore all
-        available AppEEARS products.
+### Data Download and Processing
 
-3.  Retrive Reference Data
+After the task submission is done you’ll receive an email notification.
+With the **‘download_task_bundle()’** function it is possible to
+download your datasets to a directory on your computer.
 
-    1.  Authenticate with AppEEARS using ‘appeears_login’ to obtain a
-        token
+Note: You need your task id for the data download. It was generated
+during the task submission process. If you lost it, you can find it in
+your AppEEARS account.
 
-    2.  Submit tasks to download reference data and filter all products
-        by the topics for your analysis
+### Integration and Visualization
 
-4.  Data Download and Processing
-
-    1.  After the task submission is done you’ll receive an Email and
-        you can start the data download
-
-5.  Integration and Visualization
-
-    1.  Apply similar pre-processing steps (1.1 -1.4) to the downloaded
-        reference datasets
-
-    2.  Plot logger data and reference datasets together
+1.  **Preproccess the reference data:** The downloaded reference
+    datasets have to be preprocessed to use them. Therefore you can
+    re-apply the pre-processing steps used for the field data. Also keep
+    in mind that some datasets need to be filtered by quality. For more
+    information take a look at the user manuals for each product.
+2.  **Plot data together**
 
 ## Example
 
+- A time series for temperature development in the alps in switzerland
+  collected through Logger
+
+- Comparison of the time series with Snow Cover Date downloaded via the
+  AppEEARS integration of this package
+
 ### Analysis of the field datasets
 
-\####1. Preprocessing
+#### 1. Preprocessing
 
 This codesnippet shows the workflow for preparing the data for the
 analysis
 
 ``` r
-library(fastR)
+library(FieldAnalyzeR)
 
 
-input_directory <- system.file("extdata/Logger/", package = "fastR")
+input_directory <- system.file("extdata/Logger/", package = "FieldAnalyzeR")
 
 ### 1. Read in the Datasets with the function "read_data"
   # for the given example datasets, the ID can be added from the filename. 
@@ -191,15 +242,16 @@ monthly_temp_plot
 
 <img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
 
-### Get reference data
+### Retrieve reference data
 
-Wieso werden Referenzdaten gewählt??
+For this example NDSI and LST datasets were chosen to gain a better
+understanding for the underlying processes.
 
-\####1. Load in Coordinate file and examine the structure
+#### 1. Load in Coordinate file and examine the structure
 
 ``` r
 
-coordinates <- read_data(input_directory = system.file("extdata/Coordinates/", package = "fastR"), add_ID_from_filename = FALSE)
+coordinates <- read_data(input_directory = system.file("extdata/Coordinates/", package = "FieldAnalyzeR"), add_ID_from_filename = FALSE)
   # Look at the dataset - it contains information about x and y            position 
 str(coordinates)
 #> 'data.frame':    1 obs. of  5 variables:
@@ -253,7 +305,7 @@ end_date <- "06-10-2023"
 #ndsi_submission <- submit_processing_task(task_name = "example_ndsi", products_df = products, topic_filter = "NDSI", token = token, start_date = start_date, end_date = end_date, coordinates_dataframe = appeears_coordinates) 
 ```
 
-#### 6. download the reference data - this may take a while therefore the preprocessed datasets are given in xxx xxx
+### Download the reference data
 
 ``` r
 ouput_directory = "define/your/output/directory"
@@ -264,14 +316,41 @@ ouput_directory = "define/your/output/directory"
 
 ### Look at reference datasets
 
-The downloaded datasets were filtered by quality.
+The downloaded datasets were filtered by quality and restructured .
 
 ``` r
+
 
 preprocessed_referencedata <- lst_ndsi_subset
 ```
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+``` r
+library(patchwork) # To display 2 charts together
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+
+field_plot <- ggplot2::ggplot(daily_temperature, 
+                     ggplot2::aes(x = Julian, 
+                         y = mean_temperature))+
+  ggplot2::geom_line(color="#69b3a2", linewidth = 1)+
+  ggplot2::ggtitle("Daily Temperature")+
+  ggplot2::facet_wrap(~Year)+
+  ggplot2::labs(x = "Julian Date", y = "Temperature °C")  # Adding labels to the axes
+
+  
+
+snow_cover <- ggplot2::ggplot(preprocessed_referencedata, 
+                     ggplot2::aes(x = Julian, 
+                         y = SnowCover))+
+  ggplot2::geom_point(color = 'grey', size = 1)+
+  ggplot2::ggtitle("Daily Snow Coverage")+
+  ggplot2::facet_wrap(~Year)+
+  ggplot2::ylim(0,100)+
+  ggplot2::labs(x = "Julian Date", y = "Snow Coverage (%)")  # Adding labels to the axes
+
+
+  
+field_plot+snow_cover+plot_layout(guides = "collect")
+#> Warning: Removed 1055 rows containing missing values (`geom_point()`).
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
