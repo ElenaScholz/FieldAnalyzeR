@@ -237,7 +237,7 @@ end_date <- "06-10-2023"
 #ndsi_submission <- submit_processing_task(task_name = "example_ndsi", products_df = products, topic_filter = "NDSI", token = token, start_date = start_date, end_date = end_date, coordinates_dataframe = appeears_coordinates) 
 ```
 
-### Download the reference data 
+### Download the reference data
 
 ```{r download}
 ouput_directory = "define/your/output/directory"
