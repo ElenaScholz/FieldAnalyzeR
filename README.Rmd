@@ -58,7 +58,7 @@ Before using FieldAnalyzeR, ensure you have the following prerequisites:
 
 ## Workflow
 
-### Data Analysis of field Temperature Data
+<!-- ### Data Analysis of field Temperature Data -->
 
 1.  **Read in Data:** Use **'read_data()'** to import your datasets. It takes the input of a directory, so make sure your raw data is stored in one folder without any other datasets or files.
 2.  **Improve the Column Readability:** Utilize **'rename_columns()'** to enhance the readability of your column names. Data collected in the field or through Logger often contains predefined variable names that need clarification
