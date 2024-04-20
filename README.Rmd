@@ -26,7 +26,7 @@ Validating field data often requires comparison with other sources of informatio
 
 In this context, FieldAnalyzeRAGENAME aims to simplify the preprocessing steps for field data analysis, with a focus on in-situ temperature data. By facilitating access to AppEEARS data within the R environment, FieldAnalyzeRAGENAME makes the access to reference data easier and helps to focus on the data analysis
 
-## The goal of FieldAnalyzeRAGENAME is ...
+## The goal of FieldAnalyzeR is ...
 
 The primary objective of the provided package is to:
 
@@ -50,11 +50,11 @@ You can install the development version of FieldAnalyzeRAGENAME like so:
 
 Before using FieldAnalyzeR, ensure you have the following prerequisites:
 
-```         
+         
 1.  **InSitu or other Time Series Data**: You'll need access to in-situ or similar time series data containing the information you intend to analyze. The format of your data should be compatible with the provided datasets or can be easily transformed to match them.
 
 2.  **NASA's EARTHDATA Portal Account**: FieldAnalyzeR leverages NASA's EARTHDATA portal to access and download reference data. If you don't have an account yet, you can create one here:([Create a new Account](http://urs.earthdata.nasa.gov)). This account is essential for retrieving reference data necessary for your analyses.
-```
+
 
 ## Workflow
 
