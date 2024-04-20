@@ -15,6 +15,9 @@
 #' @importFrom jsonlite toJSON
 #' @importFrom jsonlite prettify
 #'
+#' @source The source for this code can be found here:
+#'        https://github.com/nasa/AppEEARS-Data-Resources
+#'
 #' @export
 #'
 #'
