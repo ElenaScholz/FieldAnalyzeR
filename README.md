@@ -22,11 +22,11 @@ observations. By integrating remote sensing-derived time series with
 field data, it is possible to gain a comprehensive understanding of
 environmental dynamics.
 
-In this context, FieldAnalyzeRAGENAME aims to simplify the preprocessing
-steps for field data analysis, with a focus on in-situ temperature data.
-By facilitating access to AppEEARS data within the R environment,
-FieldAnalyzeRAGENAME makes the access to reference data easier and helps
-to focus on the data analysis
+In this context, FieldAnalyzeR aims to simplify the preprocessing steps
+for field data analysis, with a focus on in-situ temperature data. By
+facilitating access to AppEEARS data within the R environment,
+FieldAnalyzeR makes the access to reference data easier and helps to
+focus on the data analysis
 
 ## The goal of FieldAnalyzeR is …
 
@@ -44,10 +44,10 @@ The primary objective of the provided package is to:
 
 ## Installation
 
-You can install the development version of FieldAnalyzeRAGENAME like so:
+You can install the development version of FieldAnalyzeR like so:
 
 ``` r
-# devtools::install_github("ElenaScholz/FieldAnalyzeRAGENAME")
+# devtools::install_github("ElenaScholz/FieldAnalyzeR")
 ```
 
 ## Prerequisites
@@ -177,7 +177,7 @@ sample_data <- rename_columns(raw_data,
   # for further analysis it is necessary to have the Date converted to the type         "Date". Therefore check if the format of the Time Column. 
 
 
-sample_data <- mutate_dates(sample_data, time_column = "Time",
+sample_data <- mutate_dates(sample_data, datetime_column = "Time",
                             time_format = "%d.%m.%Y %H:%M")
 
 head(sample_data)
@@ -204,36 +204,47 @@ into daily and monthly datasets (also possible for annual and seasonal)
 
 ``` r
 
-daily_temperature <- aggregate_data(sample_data, aggregation_type = "daily", temperature_column = "Temperature_C")
+daily_temperature <- aggregate_data(sample_data, aggregation_type = "daily", aggregation_column = "Temperature_C")
 
-monthly_temperature <- aggregate_data(sample_data, aggregation_type = "monthly", temperature_column = "Temperature_C")
+monthly_temperature <- aggregate_data(sample_data, aggregation_type = "monthly", aggregation_column = "Temperature_C")
 ```
 
 ``` r
 # generate simple plots to see the developement of the temperature over time
 
-daily_temp_plot <- ggplot2::ggplot(daily_temperature, ggplot2::aes(x = Julian, y = mean_temperature)) +
+daily_temp_plot <- ggplot2::ggplot(daily_temperature, ggplot2::aes(x = Julian, y = mean_value)) +
     ggplot2::geom_line(color = '#6bd2db', linewidth = 1) +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                       hjust = 1, size = 10),
                    axis.title.x = ggplot2::element_blank(),
                    axis.title.y = ggplot2::element_blank()) +
     ggplot2::ggtitle("Development of temperature for Julian Date") +
-    ggplot2::facet_wrap(~Year) +
-    ggplot2::labs(subtitle = paste("Logger ID:", unique(daily_temperature$Logger_ID)))
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, 
+                                                       hjust = 1, size = 10),
+                   axis.title.x = ggplot2::element_text(),
+        legend.position = "none") +
+    ggplot2::theme(axis.text.y = ggplot2::element_text(angle = 90, 
+                                                       hjust = 1, size = 10),
+                   axis.title.y = ggplot2::element_text(angle = 90),
+        legend.position = "none") +
+    ggplot2::labs(x = "Julian Date",
+                  y = "Mean Temperature")+
+    ggplot2::facet_wrap(~Year)
+
 
 daily_temp_plot
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-plots-1.png" width="100%" />
 
 ``` r
 
 
 
-monthly_temp_plot <- ggplot2::ggplot(monthly_temperature, ggplot2::aes(Year, mean_temperature, colour = Month)) +
+monthly_temp_plot <- ggplot2::ggplot(monthly_temperature, ggplot2::aes(Year, mean_value)) +
   ggplot2::geom_point(size = 0.5) +
-  ggplot2::geom_smooth() +
+ ggplot2::geom_smooth(color = "#990000") +
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
         axis.title.x = ggplot2::element_blank(),
         legend.position = "none") +
@@ -247,7 +258,7 @@ monthly_temp_plot
 #> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
+<img src="man/figures/README-plots-2.png" width="100%" />
 
 ### Retrieve reference data
 
@@ -275,7 +286,7 @@ head(coordinates)
 #### 2. create a spatial dataset, that converts the original coordinatesystem into longitude and latitude
 
 ``` r
-coordinates_transformed <- make_spatial_data(coordinates, coordinate_column = c("X", "Y"), data_crs_original = coordinates$EPSG, transformed_crs = "+proj=longlat +datum=WGS84", logger_id_column = "Logger.ID")
+coordinates_transformed <- make_spatial_data(coordinates, coordinate_column = c("X", "Y"), original_crs = coordinates$EPSG, transformed_crs = "+proj=longlat +datum=WGS84", logger_id_column = "Logger.ID")
 
   # the new dataset is a list containing an sf-object and a dataframe      for the download
 class(coordinates_transformed)
@@ -317,7 +328,7 @@ end_date <- "06-10-2023"
 ``` r
 ouput_directory = "define/your/output/directory"
 
-#download_task_bundle(task_id =     lst_submission, token = token, output_directory = ouput_directory)
+# download_task_bundle(task_id = lst_submission, token = token, output_directory = ouput_directory)
 #download_task_bundle(task_id = ndsi_submission, token = token, output_directory = ouput_directory)
 ```
 
@@ -329,6 +340,9 @@ The downloaded datasets were filtered by quality and restructured .
 
 
 preprocessed_referencedata <- lst_ndsi_subset
+
+monthly_SnowCover <- aggregate_data(preprocessed_referencedata, aggregation_type = "monthly", aggregation_column = "SnowCover")
+monthly_LST <- aggregate_data(preprocessed_referencedata, aggregation_type = "monthly", aggregation_column = "LST_C")
 ```
 
 ``` r
@@ -337,7 +351,7 @@ library(patchwork) # To display 2 charts together
 
 field_plot <- ggplot2::ggplot(daily_temperature, 
                      ggplot2::aes(x = Julian, 
-                         y = mean_temperature))+
+                         y = mean_value))+
   ggplot2::geom_line(color="#69b3a2", linewidth = 1)+
   ggplot2::ggtitle("Daily Temperature")+
   ggplot2::facet_wrap(~Year)+
@@ -358,6 +372,26 @@ snow_cover <- ggplot2::ggplot(preprocessed_referencedata,
   
 field_plot+snow_cover+plot_layout(guides = "collect")
 #> Warning: Removed 1055 rows containing missing values (`geom_point()`).
+```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+
+``` r
+monthly_sc_plot <- ggplot2::ggplot(monthly_SnowCover, ggplot2::aes(Year, mean_value)) +
+  ggplot2::geom_point(size = 0.5) +
+ ggplot2::geom_smooth(color = "#6a8dcc") +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
+        axis.title.x = ggplot2::element_blank(),
+        legend.position = "none") +
+  ggplot2::labs(x = "Year",
+        y = "Mean Snow Coverage") +
+  ggplot2::facet_wrap(~Month) +
+  ggplot2::ggtitle("Development of SnowCoverage per Month")
+
+
+monthly_sc_plot+monthly_temp_plot+plot_layout(guides = "collect")
+#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+#> `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
