@@ -1,30 +1,29 @@
-#' rename_columns
+#' Rename Columns
 #'
-#' @param df MANDADORY - the input dataframe you want to apply the changes to
-#' @param rename_map OPTIONAL - a list containing all old and new column names. The structure is: rename_map = list(New_Colname1 = "Old_Colname1, New_Colname2 = "Old_Colname2", ...)
-#' default: list(Number = "No", Logger_ID = "Logger_ID", Time = "Time", Temperature_C = "X1.oC", Battery_Voltage = "HK.Bat.V")
-#
-#' @return returns a dataframe with the new column names
+#' Renames columns of a dataframe according to the provided mapping.
 #'
-#' @import dplyr
+#' @param df The input dataframe to which the changes should be applied.
+#' @param rename_map An optional list specifying the old and new column names.
+#'                   The structure should be: rename_map = list(New_Colname1 = "Old_Colname1", New_Colname2 = "Old_Colname2", ...)
+#'                   Default: list(Number = "No", Logger_ID = "Logger_ID", Time = "Time", Temperature_C = "X1.oC", Battery_Voltage = "HK.Bat.V").
 #'
-#' @examples
+#' @return A dataframe with the new column names.
 #'
-#' rename_columns(df = read.csv("/home/ela/Documents/R-FinalExam/examples/01_logger.csv"))
+#' @importFrom dplyr rename
 #'
 #' @export
 #'
 
-rename_columns <- function(df,rename_map = list(Number = "No",
-                                                Logger_ID = "Logger_ID",
-                                                Time = "Time",
-                                                Temperature_C = "X1.oC",
-                                                Battery_Voltage = "HK.Bat.V")){
+rename_columns <- function(df, rename_map = list(Number = "No",
+                                                 Logger_ID = "Logger_ID",
+                                                 Time = "Time",
+                                                 Temperature_C = "X1.oC",
+                                                 Battery_Voltage = "HK.Bat.V")) {
   renamed_df <- df
 
   if (!is.null(rename_map)) {
     renamed_df <- dplyr::rename(renamed_df, !!!rename_map)
   }
+
+  return(renamed_df)
 }
-
-

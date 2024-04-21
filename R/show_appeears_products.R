@@ -4,8 +4,7 @@
 #'
 #' @return returns a dataframe with all available products, their description and temporal resolution
 #'
-#' @importFrom httr GET
-#' @importFrom httr content
+#' @importFrom httr GET content
 #'
 #' @export
 #'

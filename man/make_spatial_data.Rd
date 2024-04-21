@@ -7,7 +7,7 @@
 make_spatial_data(
   df,
   coordinate_column = c("X", "Y"),
-  data_crs_original,
+  original_crs,
   transformed_crs = "+proj=longlat +datum=WGS84",
   logger_id_column = "Logger_ID"
 )
@@ -17,7 +17,7 @@ make_spatial_data(
 
 \item{coordinate_column}{A character vector specifying the column names for the X and Y coordinates.}
 
-\item{data_crs_original}{The CRS of the original spatial data.}
+\item{original_crs}{The coordinate reference system (CRS) of the original spatial data.}
 
 \item{transformed_crs}{The target CRS for transformation. Defaults to WGS84.}
 

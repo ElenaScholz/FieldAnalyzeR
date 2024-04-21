@@ -22,15 +22,18 @@ aggregate_data <- function(df, aggregation_type, aggregation_column) {
     stop(paste("Required columns missing in the dataframe:", paste(missing_columns, collapse = ", ")))
   }
 
+  # Rename the specified aggregation column within the dataframe
+  colnames(df)[colnames(df) == aggregation_column] <- "Aggregation_Column"
+
   # Perform aggregation based on aggregation type
   if (aggregation_type == "daily") {
     daily_data <- df %>%
       dplyr::group_by(Date) %>%
-      dplyr::filter(!is.na({{aggregation_column}})) %>%
-      dplyr::summarise(mean_value = mean({{aggregation_column}}),
-                       std_value = stats::sd({{aggregation_column}}),
-                       min_value = min({{aggregation_column}}),
-                       max_value = max({{aggregation_column}}),
+      dplyr::filter(!is.na(Aggregation_Column)) %>%
+      dplyr::summarise(mean_value = mean(Aggregation_Column),
+                       std_value = stats::sd(Aggregation_Column),
+                       min_value = min(Aggregation_Column),
+                       max_value = max(Aggregation_Column),
                        Logger_ID = dplyr::first(Logger_ID),
                        Month = dplyr::first(Month),
                        Year = dplyr::first(Year),
@@ -39,21 +42,21 @@ aggregate_data <- function(df, aggregation_type, aggregation_column) {
   } else if (aggregation_type == "monthly") {
     monthly_data <- df %>%
       dplyr::group_by(Month, Year) %>%
-      dplyr::filter(!is.na({{aggregation_column}})) %>%
-      dplyr::summarise(mean_value = mean({{aggregation_column}}),
-                       std_value = stats::sd({{aggregation_column}}),
-                       min_value = min({{aggregation_column}}),
-                       max_value = max({{aggregation_column}}),
+      dplyr::filter(!is.na(Aggregation_Column)) %>%
+      dplyr::summarise(mean_value = mean(Aggregation_Column),
+                       std_value = stats::sd(Aggregation_Column),
+                       min_value = min(Aggregation_Column),
+                       max_value = max(Aggregation_Column),
                        Logger_ID = dplyr::first(Logger_ID))
     return(monthly_data)
   } else if (aggregation_type == "annual") {
     annual_data <- df %>%
       dplyr::group_by(Year) %>%
-      dplyr::filter(!is.na({{aggregation_column}})) %>%
-      dplyr::summarise(mean_value = mean({{aggregation_column}}),
-                       std_value = stats::sd({{aggregation_column}}),
-                       min_value = min({{aggregation_column}}),
-                       max_value = max({{aggregation_column}}),
+      dplyr::filter(!is.na(Aggregation_Column)) %>%
+      dplyr::summarise(mean_value = mean(Aggregation_Column),
+                       std_value = stats::sd(Aggregation_Column),
+                       min_value = min(Aggregation_Column),
+                       max_value = max(Aggregation_Column),
                        Logger_ID = dplyr::first(Logger_ID),
                        .groups = "drop")
     return(annual_data)
@@ -66,11 +69,11 @@ aggregate_data <- function(df, aggregation_type, aggregation_column) {
         TRUE ~ "Winter"
       )) %>%
       dplyr::group_by(Year = lubridate::year(Date), Season) %>%
-      dplyr::filter(!is.na({{aggregation_column}})) %>%
-      dplyr::summarise(mean_value = mean({{aggregation_column}}),
-                       std_value = stats::sd({{aggregation_column}}),
-                       min_value = min({{aggregation_column}}),
-                       max_value = max({{aggregation_column}}),
+      dplyr::filter(!is.na(Aggregation_Column)) %>%
+      dplyr::summarise(mean_value = mean(Aggregation_Column),
+                       std_value = stats::sd(Aggregation_Column),
+                       min_value = min(Aggregation_Column),
+                       max_value = max(Aggregation_Column),
                        Logger_ID = dplyr::first(Logger_ID),
                        .groups = "drop")
     return(seasonal_data)

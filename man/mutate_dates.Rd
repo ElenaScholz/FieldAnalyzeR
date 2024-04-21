@@ -2,26 +2,20 @@
 % Please edit documentation in R/modify_dates.R
 \name{mutate_dates}
 \alias{mutate_dates}
-\title{mutate time column}
+\title{Mutate Time Column}
 \usage{
-mutate_dates(df, time_column, time_format)
+mutate_dates(df, datetime_column, time_format)
 }
 \arguments{
-\item{df}{MANDATORY, Dataframe containing the time-related columns}
+\item{df}{The input dataframe containing time-related columns.}
 
-\item{time_column}{MANDATORY, Type: String, The column name containing the Date and Time or only Date column}
+\item{datetime_column}{The name of the column containing both Date and Time information, or just Date.}
 
-\item{time_format}{MANDATORY, Type: String, The format of Time and Date. For example: "\%d.\%m.\%Y \%H:\%M:\%S"}
+\item{time_format}{The format of the datetime information in the datetime_column. This should follow standard datetime formatting conventions, such as "\%Y-\%m-\%d \%H:\%M:\%S".}
 }
 \value{
-dataframe with the correct Time, Date, Juliam Month and Year columns
+A modified dataframe with additional columns for Date, Julian day, Month, and Year extracted from the datetime_column.
 }
 \description{
-This function mutates the time-related columns in the dataframe, including Time, Date,
-Julian, Month, and Year.
-}
-\examples{
-
-mutated_df <- mutate_dates(df = read.csv("/home/ela/Documents/R-FinalExam/examples/02_logger.csv"), time_column = "Time", time_format = "\%d.\%m.\%Y \%H:\%M:\%S")
-
+This function mutates the time-related columns in the dataframe to extract useful components such as Date, Julian day, Month, and Year.
 }

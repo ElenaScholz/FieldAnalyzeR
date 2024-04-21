@@ -132,7 +132,7 @@ sample_data <- rename_columns(raw_data,
   # for further analysis it is necessary to have the Date converted to the type         "Date". Therefore check if the format of the Time Column. 
 
 
-sample_data <- mutate_dates(sample_data, time_column = "Time",
+sample_data <- mutate_dates(sample_data, datetime_column = "Time",
                             time_format = "%d.%m.%Y %H:%M")
 
 head(sample_data)
@@ -154,7 +154,7 @@ monthly_temperature <- aggregate_data(sample_data, aggregation_type = "monthly",
 ```{r}
 # generate simple plots to see the developement of the temperature over time
 
-daily_temp_plot <- ggplot2::ggplot(daily_temperature, ggplot2::aes(x = Julian, y = mean_temperature)) +
+daily_temp_plot <- ggplot2::ggplot(daily_temperature, ggplot2::aes(x = Julian, y = mean_value)) +
     ggplot2::geom_line(color = '#6bd2db', linewidth = 1) +
     ggplot2::theme_bw() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
@@ -168,7 +168,7 @@ daily_temp_plot
 
 
 
-monthly_temp_plot <- ggplot2::ggplot(monthly_temperature, ggplot2::aes(Year, mean_temperature, colour = Month)) +
+monthly_temp_plot <- ggplot2::ggplot(monthly_temperature, ggplot2::aes(Year, mean_value, colour = Month)) +
   ggplot2::geom_point(size = 0.5) +
   ggplot2::geom_smooth() +
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
@@ -200,7 +200,7 @@ head(coordinates)
 #### 2. create a spatial dataset, that converts the original coordinatesystem into longitude and latitude
 
 ```{r transformation}
-coordinates_transformed <- make_spatial_data(coordinates, coordinate_column = c("X", "Y"), data_crs_original = coordinates$EPSG, transformed_crs = "+proj=longlat +datum=WGS84", logger_id_column = "Logger.ID")
+coordinates_transformed <- make_spatial_data(coordinates, coordinate_column = c("X", "Y"), original_crs = coordinates$EPSG, transformed_crs = "+proj=longlat +datum=WGS84", logger_id_column = "Logger.ID")
 
   # the new dataset is a list containing an sf-object and a dataframe      for the download
 class(coordinates_transformed)
@@ -255,6 +255,9 @@ The downloaded datasets were filtered by quality and restructured .
 
 
 preprocessed_referencedata <- lst_ndsi_subset
+
+monthly_SnowCover <- aggregate_data(preprocessed_referencedata, aggregation_type = "monthly", aggregation_column = "SnowCover")
+monthly_LST <- aggregate_data(preprocessed_referencedata, aggregation_type = "monthly", aggregation_column = "LST_C")
 
 
 ```
