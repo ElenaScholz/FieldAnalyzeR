@@ -361,3 +361,14 @@ field_plot+snow_cover+plot_layout(guides = "collect")
 ```
 
 <img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+# Acknowledgement
+
+For the integration of the AppEEARS API the code of the following
+repository was modified and used:
+<https://github.com/nasa/AppEEARS-Data-Resources/tree/main>
+
+It was used for the following functions:
+
+appeears_login() download_task_bundle() show_appears_products()
+submit_processing_task() utils-appeears_helper.R
