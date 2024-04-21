@@ -24,7 +24,7 @@ Time series analysis is as a vital tool in this context, enabling us to monitor 
 
 Validating field data often requires comparison with other sources of information. Remote sensing, with its ability to capture data over large spatial and temporal scales, can complement the gathered field observations. By integrating remote sensing-derived time series with field data, it is possible to gain a comprehensive understanding of environmental dynamics.
 
-In this context, FieldAnalyzeRAGENAME aims to simplify the preprocessing steps for field data analysis, with a focus on in-situ temperature data. By facilitating access to AppEEARS data within the R environment, FieldAnalyzeRAGENAME makes the access to reference data easier and helps to focus on the data analysis
+In this context, FieldAnalyzeR aims to simplify the preprocessing steps for field data analysis, with a focus on in-situ temperature data. By facilitating access to AppEEARS data within the R environment, FieldAnalyzeR makes the access to reference data easier and helps to focus on the data analysis
 
 ## The goal of FieldAnalyzeR is ...
 
@@ -40,10 +40,10 @@ The primary objective of the provided package is to:
 
 ## Installation
 
-You can install the development version of FieldAnalyzeRAGENAME like so:
+You can install the development version of FieldAnalyzeR like so:
 
 ``` r
-# devtools::install_github("ElenaScholz/FieldAnalyzeRAGENAME")
+# devtools::install_github("ElenaScholz/FieldAnalyzeR")
 ```
 
 ## Prerequisites
@@ -151,26 +151,37 @@ monthly_temperature <- aggregate_data(sample_data, aggregation_type = "monthly",
 
 ```
 
-```{r}
+```{r plots}
 # generate simple plots to see the developement of the temperature over time
 
 daily_temp_plot <- ggplot2::ggplot(daily_temperature, ggplot2::aes(x = Julian, y = mean_value)) +
     ggplot2::geom_line(color = '#6bd2db', linewidth = 1) +
     ggplot2::theme_bw() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45,
+                                                       hjust = 1, size = 10),
                    axis.title.x = ggplot2::element_blank(),
                    axis.title.y = ggplot2::element_blank()) +
     ggplot2::ggtitle("Development of temperature for Julian Date") +
-    ggplot2::facet_wrap(~Year) +
-    ggplot2::labs(subtitle = paste("Logger ID:", unique(daily_temperature$Logger_ID)))
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, 
+                                                       hjust = 1, size = 10),
+                   axis.title.x = ggplot2::element_text(),
+        legend.position = "none") +
+    ggplot2::theme(axis.text.y = ggplot2::element_text(angle = 90, 
+                                                       hjust = 1, size = 10),
+                   axis.title.y = ggplot2::element_text(angle = 90),
+        legend.position = "none") +
+    ggplot2::labs(x = "Julian Date",
+                  y = "Mean Temperature")+
+    ggplot2::facet_wrap(~Year)
+
 
 daily_temp_plot
 
 
 
-monthly_temp_plot <- ggplot2::ggplot(monthly_temperature, ggplot2::aes(Year, mean_value, colour = Month)) +
+monthly_temp_plot <- ggplot2::ggplot(monthly_temperature, ggplot2::aes(Year, mean_value)) +
   ggplot2::geom_point(size = 0.5) +
-  ggplot2::geom_smooth() +
+ ggplot2::geom_smooth(color = "#990000") +
   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
         axis.title.x = ggplot2::element_blank(),
         legend.position = "none") +
@@ -242,7 +253,7 @@ end_date <- "06-10-2023"
 ```{r download}
 ouput_directory = "define/your/output/directory"
 
-#download_task_bundle(task_id = 	lst_submission, token = token, output_directory = ouput_directory)
+# download_task_bundle(task_id = lst_submission, token = token, output_directory = ouput_directory)
 #download_task_bundle(task_id = ndsi_submission, token = token, output_directory = ouput_directory)
 
 ```
@@ -260,6 +271,7 @@ monthly_SnowCover <- aggregate_data(preprocessed_referencedata, aggregation_type
 monthly_LST <- aggregate_data(preprocessed_referencedata, aggregation_type = "monthly", aggregation_column = "LST_C")
 
 
+
 ```
 
 ```{r}
@@ -268,7 +280,7 @@ library(patchwork) # To display 2 charts together
 
 field_plot <- ggplot2::ggplot(daily_temperature, 
                      ggplot2::aes(x = Julian, 
-                         y = mean_temperature))+
+                         y = mean_value))+
   ggplot2::geom_line(color="#69b3a2", linewidth = 1)+
   ggplot2::ggtitle("Daily Temperature")+
   ggplot2::facet_wrap(~Year)+
@@ -289,6 +301,23 @@ snow_cover <- ggplot2::ggplot(preprocessed_referencedata,
   
 field_plot+snow_cover+plot_layout(guides = "collect")
 
+
+```
+
+```{r}
+monthly_sc_plot <- ggplot2::ggplot(monthly_SnowCover, ggplot2::aes(Year, mean_value)) +
+  ggplot2::geom_point(size = 0.5) +
+ ggplot2::geom_smooth(color = "#6a8dcc") +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 10),
+        axis.title.x = ggplot2::element_blank(),
+        legend.position = "none") +
+  ggplot2::labs(x = "Year",
+        y = "Mean Snow Coverage") +
+  ggplot2::facet_wrap(~Month) +
+  ggplot2::ggtitle("Development of SnowCoverage per Month")
+
+
+monthly_sc_plot+monthly_temp_plot+plot_layout(guides = "collect")
 
 ```
 
