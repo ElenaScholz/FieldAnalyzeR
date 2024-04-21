@@ -7,14 +7,20 @@
 add_coordinates(df, logger_coordinates, Coordinate_Column_Name = "Logger_ID")
 }
 \arguments{
-\item{df}{MANDATORY - Type: Dataframe - input dataframe}
+\item{df}{\itemize{
+\item Type: Dataframe - The input dataframe to which coordinates will be added.
+}}
 
-\item{logger_coordinates}{MANDATORY - Type: String , contains the directory of the file (excel, csv) or dataframe with the coordinates}
+\item{logger_coordinates}{\itemize{
+\item Type: String or Dataframe - The file path (Excel, CSV) or dataframe containing the coordinates.
+}}
 
-\item{Coordinate_Column_Name}{MANDATORY - Type: String - the column that contains the logger id and on which the coordinates will be merged to the dataframe}
+\item{Coordinate_Column_Name}{\itemize{
+\item Type: String - The name of the column in 'logger_coordinates' that contains the identifier (logger ID) for merging.
+}}
 }
 \value{
-logger dataset with the coordinates for the logger position
+Dataframe - The input dataframe with added coordinates based on the identifier column.
 }
 \description{
 'add_coordinates' will add the coordinates in new columns to an existing dataframe. They are added based on an identifier column

@@ -145,9 +145,9 @@ To analyse the data, the hourly temperature datasets will be converted into dail
 
 ```{r analysis}
 
-daily_temperature <- aggregate_data(sample_data, aggregation_type = "daily", temperature_column = "Temperature_C")
+daily_temperature <- aggregate_data(sample_data, aggregation_type = "daily", aggregation_column = "Temperature_C")
 
-monthly_temperature <- aggregate_data(sample_data, aggregation_type = "monthly", temperature_column = "Temperature_C")
+monthly_temperature <- aggregate_data(sample_data, aggregation_type = "monthly", aggregation_column = "Temperature_C")
 
 ```
 

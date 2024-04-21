@@ -7,13 +7,13 @@
 create_subset(data, columns)
 }
 \arguments{
-\item{data}{The input dataframe}
+\item{data}{The input dataframe.}
 
-\item{columns}{A vector containing all columns that should stay in the dataframe}
+\item{columns}{A vector containing the names of columns to be retained in the subset.}
 }
 \value{
-returns a subset of the original dataframe
+A subset of the original dataframe.
 }
 \description{
-create_subset() creates a subset of a given dataframe based on a vector of columns
+\code{create_subset()} generates a subset of a given dataframe based on a vector of column names.
 }

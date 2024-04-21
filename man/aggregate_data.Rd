@@ -4,18 +4,18 @@
 \alias{aggregate_data}
 \title{Aggregate Data}
 \usage{
-aggregate_data(df, aggregation_type, temperature_column)
+aggregate_data(df, aggregation_type, aggregation_column)
 }
 \arguments{
-\item{df}{MANDATORY Type: dataframe- - the input Dataframe containing the Loggerdata (please apply rename colnames and modify dates before)}
+\item{df}{A dataframe containing the Logger data. Columns should include "Logger_ID", "Month", "Date", "Year", "Julian", and the specified aggregation column.}
 
-\item{aggregation_type}{MANDATORY - Type: String - you can choose between "daily", "monthly", "seasonal" and "annual"}
+\item{aggregation_type}{The type of aggregation to perform: "daily", "monthly", "seasonal", or "annual".}
 
-\item{temperature_column}{OPTIONAL - Type: String - if temperature column is not "Temperature_C" change the parameter}
+\item{aggregation_column}{The name of the column to use for aggregation.}
 }
 \value{
-returns a dataframe with the aggregated temperature data. it will contain new columns for mean, standard derivation, minimum and maximum Temperature
+A dataframe with the aggregated data including mean, standard deviation, minimum, and maximum of the specified aggregation column.
 }
 \description{
-Data aggregation by Day, Month, Season or Year
+Perform data aggregation by Day, Month, Season, or Year based on a specified aggregation column.
 }

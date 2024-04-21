@@ -1,11 +1,13 @@
 #' Create Subset
 #'
-#' create_subset() creates a subset of a given dataframe based on a vector of columns
+#' `create_subset()` generates a subset of a given dataframe based on a vector of column names.
 #'
-#' @param data The input dataframe
-#' @param columns A vector containing all columns that should stay in the dataframe
+#' @param data The input dataframe.
+#' @param columns A vector containing the names of columns to be retained in the subset.
 #'
-#' @return returns a subset of the original dataframe
+#' @importFrom dplyr select
+#'
+#' @return A subset of the original dataframe.
 #' @export
 #'
 

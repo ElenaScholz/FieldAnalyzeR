@@ -7,13 +7,13 @@
 #' @return A ggplot object displaying the temperature development over time.
 #'
 #'
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot aes geom_line geom_smooth theme_bw theme ggtitle facet_wrap labs
 #'
 #' @export
 #'
 
 create_daily_plot <- function(data, title) {
-  plot <- ggplot2::ggplot(data, aes(x = Julian, y = mean_temperature)) +
+  plot <- ggplot2::ggplot(data, ggplot2::aes(x = Julian, y = mean_temperature)) +
     ggplot2::geom_line(color = '#6bd2db', linewidth = 1) +
     ggplot2::geom_smooth() +
     ggplot2::theme_bw() +

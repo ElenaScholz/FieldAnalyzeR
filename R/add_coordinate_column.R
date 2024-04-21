@@ -1,24 +1,25 @@
 #' Add Coordinates to the dataframe
 #'
 #' 'add_coordinates' will add the coordinates in new columns to an existing dataframe. They are added based on an identifier column
-#' @param df MANDATORY - Type: Dataframe - input dataframe
-#' @param logger_coordinates MANDATORY - Type: String , contains the directory of the file (excel, csv) or dataframe with the coordinates
-#' @param Coordinate_Column_Name MANDATORY - Type: String - the column that contains the logger id and on which the coordinates will be merged to the dataframe
+#' @param df - Type: Dataframe - The input dataframe to which coordinates will be added.
+#' @param logger_coordinates - Type: String or Dataframe - The file path (Excel, CSV) or dataframe containing the coordinates.
+#' @param Coordinate_Column_Name - Type: String - The name of the column in 'logger_coordinates' that contains the identifier (logger ID) for merging.
 #'
-#' @return logger dataset with the coordinates for the logger position
+#' @return Dataframe - The input dataframe with added coordinates based on the identifier column.
 #'
 #' @export
 #'
-
 add_coordinates <- function(df, logger_coordinates, Coordinate_Column_Name = "Logger_ID"){
 
+  # Check if logger_coordinates is a file or dataframe
   check_file(logger_coordinates)
 
-
+  # Read and format coordinates
   coordinates <- check_format(logger_coordinates)
 
+  # Merge dataframe with coordinates based on the identifier column
   logger_df <- merge(df, coordinates, by = Coordinate_Column_Name)
 
-  return(logger_df = logger_df)
+  # Return the dataframe with added coordinates
+  return(logger_df)
 }
-

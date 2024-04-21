@@ -2,14 +2,14 @@
 % Please edit documentation in R/AppEEARS_login.R
 \name{appeears_login}
 \alias{appeears_login}
-\title{AppEEARS login}
+\title{AppEEARS Login}
 \usage{
 appeears_login()
 }
 \value{
-returns a token that is needed for further data access
+A token that is required for further data access.
 }
 \description{
-'appeears_login' checks if a netrc file exists,
-if not it sets it up and then checks the credentials and logs in to Appears
+\code{appeears_login} checks if a .netrc file exists and contains login credentials. If not, it sets up the .netrc file with the necessary credentials
+and then logs in to the AppEEARS service.
 }
