@@ -50,11 +50,9 @@ You can install the development version of FieldAnalyzeR like so:
 
 Before using FieldAnalyzeR, ensure you have the following prerequisites:
 
-         
 1.  **InSitu or other Time Series Data**: You'll need access to in-situ or similar time series data containing the information you intend to analyze. The format of your data should be compatible with the provided datasets or can be easily transformed to match them.
 
 2.  **NASA's EARTHDATA Portal Account**: FieldAnalyzeR leverages NASA's EARTHDATA portal to access and download reference data. If you don't have an account yet, you can create one here:([Create a new Account](http://urs.earthdata.nasa.gov)). This account is essential for retrieving reference data necessary for your analyses.
-
 
 ## Workflow
 
@@ -321,14 +319,10 @@ monthly_sc_plot+monthly_temp_plot+plot_layout(guides = "collect")
 
 ```
 
-# Acknowledgement 
+# Acknowledgement
 
-For the integration of the AppEEARS API the code of the following repository was modified and used: https://github.com/nasa/AppEEARS-Data-Resources/tree/main
+For the integration of the AppEEARS API the code of the following repository was modified and used: <https://github.com/nasa/AppEEARS-Data-Resources/tree/main>
 
-It was used for the following functions: 
+It was used for the following functions:
 
-appeears_login()
-download_task_bundle()
-show_appears_products()
-submit_processing_task()
-utils-appeears_helper.R
+appeears_login() download_task_bundle() show_appears_products() submit_processing_task() utils-appeears_helper.R
