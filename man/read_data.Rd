@@ -31,9 +31,3 @@ a single dataframe or a list of dataframes containing the raw data
 read_data
 reads in files used for the analysis of logger data. Possible file types are: Excel, csv or a dataframe
 }
-\examples{
-
-read_data(input_directory = "/home/ela/Documents/R-FinalExam/Muragl/")
-read_data(input_directory = "/home/ela/Documents/R-FinalExam/Muragl/", add_ID_from_filename = FALSE)
-
-}

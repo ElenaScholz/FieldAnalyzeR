@@ -7,12 +7,7 @@
 #' @param index_id OPTIONAL, Type: vector - should contain the start and end position of the ID in the filename, default: c(0,6)
 #'
 #' @return a single dataframe or a list of dataframes containing the raw data
-
 #'
-#' @examples
-#'
-#' read_data(input_directory = "/home/ela/Documents/R-FinalExam/Muragl/")
-#' read_data(input_directory = "/home/ela/Documents/R-FinalExam/Muragl/", add_ID_from_filename = FALSE)
 #'
 #' @export
 #'

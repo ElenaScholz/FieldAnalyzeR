@@ -1,5 +1,6 @@
 ---
 output: github_document
+---ve.
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -24,7 +25,7 @@ Time series analysis is as a vital tool in this context, enabling us to monitor 
 
 Validating field data often requires comparison with other sources of information. Remote sensing, with its ability to capture data over large spatial and temporal scales, can complement the gathered field observations. By integrating remote sensing-derived time series with field data, it is possible to gain a comprehensive understanding of environmental dynamics.
 
-In this context, FieldAnalyzeR aims to simplify the preprocessing steps for field data analysis, with a focus on in-situ temperature data. By facilitating access to AppEEARS data within the R environment, FieldAnalyzeR makes the access to reference data easier and helps to focus on the data analysis
+In this context, FieldAnalyzeR aims to simplify the preprocessing steps for field data analysis, with a focus on in-situ temperature data. By facilitating access to AppEEARS data within the R environment, FieldAnalyzeR makes the access to reference data (e.g. Temperature, NDVI, NDSI,... ) easier and helps to focus on the data analysis.
 
 ## The goal of FieldAnalyzeR is ...
 
@@ -36,7 +37,24 @@ The primary objective of the provided package is to:
 
 -   Facilitate access to AppEEARS data within R, particularly referencing datasets derived from remote sensing applications.
 
-    <!-- -->
+## Function overview
+
+| Name | Description |
+|------|-------------|
+|      |             |
+|      |             |
+|      |             |
+|      |             |
+|      |             |
+|      |             |
+|      |             |
+|      |             |
+|      |             |
+|      |             |
+
+```         
+<!-- -->
+```
 
 ## Installation
 
@@ -92,20 +110,20 @@ Note: You need your task id for the data download. It was generated during the t
 
 -   A time series for temperature development in the alps in switzerland collected through Logger
 
--   Comparison of the time series with Snow Cover Date downloaded via the AppEEARS integration of this package
+-   Comparison of the time series with Snow Cover Data downloaded via the AppEEARS integration of this package
 
 ### Analysis of the field datasets
 
 #### 1. Preprocessing
 
-This codesnippet shows the workflow for preparing the data for the analysis
+This codesnippet shows the workflow for preparing the data for the analysis. As input data you can use the provided example dataset stored in the "extdata/Logger/" repository. if you are not working with Linux make sure that the path ends with "/" (If not: add it!)
 
 ```{r preprocessing}
 library(FieldAnalyzeR)
 
 
 input_directory <- system.file("extdata/Logger/", package = "FieldAnalyzeR")
-
+print(input_directory)
 ### 1. Read in the Datasets with the function "read_data"
   # for the given example datasets, the ID can be added from the filename. 
 raw_data <- read_data(input_directory = input_directory, csv_sep = ",",
@@ -139,7 +157,7 @@ head(sample_data)
 
 #### 2. Data analysis
 
-To analyse the data, the hourly temperature datasets will be converted into daily and monthly datasets (also possible for annual and seasonal)
+To analyse the data, the hourly temperature datasets will be aggregated into daily and monthly datasets (also possible to aggregate the data to annual and seasonal datasets)
 
 ```{r analysis}
 
@@ -326,3 +344,7 @@ For the integration of the AppEEARS API the code of the following repository was
 It was used for the following functions:
 
 appeears_login() download_task_bundle() show_appears_products() submit_processing_task() utils-appeears_helper.R
+
+# More Information
+
+The package was devoloped on a Linux System
