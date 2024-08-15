@@ -22,7 +22,7 @@ read_data <- function(input_directory, skip_lines = 0, csv_sep = ",", csv_commen
 
   if (length(files) == 1) {
     check_file(paste0(input_directory, files))
-    dataframe <- check_format(paste0(input_directory, files))
+    dataframe <- check_format(paste0(input_directory, files), skip_lines = skip_lines)
     if (add_ID_from_filename) {
       id_logger <- substr(files, index_id[1], index_id[2])
       dataframe$Logger.ID <- id_logger
