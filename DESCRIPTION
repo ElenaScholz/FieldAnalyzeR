@@ -1,5 +1,5 @@
 Package: FieldAnalyzeR
-Title: FieldAnalyzeR analyzes field temperature data.
+Title: FieldAnalyzeR analyzes field temperature data
 Version: 0.0.0.9000
 Authors@R: 
     person("Elena", "Scholz", , "elenascholz@hotmail.de", role = c("aut", "cre"),
@@ -25,3 +25,6 @@ Imports:
 Depends: 
     R (>= 2.10)
 LazyData: true
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

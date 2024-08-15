@@ -7,6 +7,7 @@ reads in files used for the analysis of logger data. Possible file types are: Ex
 \usage{
 read_data(
   input_directory,
+  skip_lines = 0,
   csv_sep = ",",
   csv_comment_character = "#",
   add_ID_from_filename = TRUE,
@@ -15,6 +16,8 @@ read_data(
 }
 \arguments{
 \item{input_directory}{MANDATORY, Type: String - The input directory where the file(s) is/are stored}
+
+\item{skip_lines}{OPTIONAL, Type: Integer - If your csv file has some lines above the actual data, change the parameter from 0 to the number of lines that need to be skipped.}
 
 \item{csv_sep}{MANDATORY, Type: String - The csv seperator used in the file. If no}
 

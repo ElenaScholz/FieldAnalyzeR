@@ -44,13 +44,13 @@ check_file <- function(file){
 #'
 #' @noRd
 
-check_format <- function(input_dataset, csv_sep = ",", comment.char = '#'){
+check_format <- function(input_dataset, skip_lines, csv_sep = ",", comment.char = '#'){
 
   extension <- tools::file_ext(input_dataset)
 
   if (extension == "csv"){
 
-    dataframe <- utils::read.csv(input_dataset, sep = csv_sep, comment.char = comment.char , header = TRUE)
+    dataframe <- utils::read.csv(input_dataset, skip = skip_lines, sep = csv_sep, comment.char = comment.char , header = TRUE)
   }
   else if (extension == "xlsx"){
     dataframe <- readxl::read_excel(input_dataset)

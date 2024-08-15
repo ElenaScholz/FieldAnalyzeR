@@ -27,8 +27,8 @@ make_spatial_data <- function(df, coordinate_column = c("X", "Y"), original_crs,
   coordinates_df <- logger_transformed_crs %>%
     sf::st_coordinates() %>%
     as.data.frame() %>%
-    dplyr::mutate(longitude = .[,1],
-                  latitude = .[,2]) %>%
+    dplyr::mutate(longitude = coordinates_df[,1],
+                  latitude = coordinates_df[,2]) %>%
     tibble::rowid_to_column("id") %>%
     dplyr::select(id, longitude, latitude) %>%
     dplyr::bind_cols(category = df[[logger_id_column]])
