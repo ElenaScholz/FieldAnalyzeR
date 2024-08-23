@@ -15,8 +15,11 @@
 #'
 read_data <- function(input_directory, file_pattern = NULL, skip_lines = 0, csv_sep = ",", csv_comment_character = '#', add_ID_from_filename = TRUE, index_id = c(0, 6)) {
 
+
   check_path(input_directory)
-  files <- list.files(input_directory, pattern = file_pattern, full.names = TRUE)
+
+
+  files <- list.files(input_directory, pattern = file_pattern)
 
   logger_dataframes <- list()
 
