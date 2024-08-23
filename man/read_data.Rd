@@ -7,7 +7,7 @@ Reads in files used for the analysis of logger data. Possible file types are Exc
 \usage{
 read_data(
   input_directory,
-  file_pattern = FALSE,
+  file_pattern = NULL,
   skip_lines = 0,
   csv_sep = ",",
   csv_comment_character = "#",
