@@ -7,6 +7,7 @@ Reads in files used for the analysis of logger data. Possible file types are Exc
 \usage{
 read_data(
   input_directory,
+  file_pattern = NULL,
   skip_lines = 0,
   csv_sep = ",",
   csv_comment_character = "#",
@@ -16,6 +17,8 @@ read_data(
 }
 \arguments{
 \item{input_directory}{MANDATORY, Type: String - The input directory where the file(s) are stored.}
+
+\item{file_pattern}{the pattern if not all datasets of the input directory should be used (e.g."_daily\\.csv$")}
 
 \item{skip_lines}{OPTIONAL, Type: Integer - Number of lines to skip before the actual data. Default is 0.}
 

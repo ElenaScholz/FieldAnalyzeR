@@ -7,15 +7,15 @@
 #' @param csv_comment_character OPTIONAL, Type: String - Character for commenting lines in CSV. Default is '#'.
 #' @param add_ID_from_filename OPTIONAL, Type: TRUE/FALSE - Whether to add an ID from the filename to the data. Default is TRUE.
 #' @param index_id OPTIONAL, Type: vector - Vector specifying the start and end positions of the ID in the filename. Default is c(0, 6).
-#'
+#' @param file_pattern the pattern if not all datasets of the input directory should be used (e.g."_daily\\.csv$")
 #' @return A single data frame or a list of data frames containing the raw data.
 #'
 #' @export
 #'
-read_data <- function(input_directory, skip_lines = 0, csv_sep = ",", csv_comment_character = '#', add_ID_from_filename = TRUE, index_id = c(0, 6)) {
+read_data <- function(input_directory, file_pattern = NULL, skip_lines = 0, csv_sep = ",", csv_comment_character = '#', add_ID_from_filename = TRUE, index_id = c(0, 6)) {
 
   check_path(input_directory)
-  files <- list.files(input_directory)
+  files <- list.files(input_directory, file_pattern, full.names = TRUE)
 
   logger_dataframes <- list()
 
