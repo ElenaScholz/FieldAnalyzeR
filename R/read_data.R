@@ -18,8 +18,10 @@ read_data <- function(input_directory, file_pattern = NULL, skip_lines = 0, csv_
 
   check_path(input_directory)
 
-
-  files <- list.files(input_directory, pattern = file_pattern)
+  if (file_pattern is.NULL){
+    files <- list.files(input_directory)
+  } else{}
+  files <- list.files(input_directory, pattern = file_pattern)}
 
   logger_dataframes <- list()
 
