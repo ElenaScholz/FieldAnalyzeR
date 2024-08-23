@@ -13,12 +13,12 @@
 #'
 #' @export
 #'
-read_data <- function(input_directory, file_pattern = NULL, skip_lines = 0, csv_sep = ",", csv_comment_character = '#', add_ID_from_filename = TRUE, index_id = c(0, 6)) {
+read_data <- function(input_directory, file_pattern = FALSE, skip_lines = 0, csv_sep = ",", csv_comment_character = '#', add_ID_from_filename = TRUE, index_id = c(0, 6)) {
 
 
   check_path(input_directory)
 
-  if (file_pattern is.NULL){
+  if (file_pattern == FALSE){
     files <- list.files(input_directory)
   } else{}
   files <- list.files(input_directory, pattern = file_pattern)}
